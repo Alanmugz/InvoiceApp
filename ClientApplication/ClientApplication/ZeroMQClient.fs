@@ -25,7 +25,7 @@ module ZeroMQClient =
         for i in 1 .. 1 do
             // 'send' a request to the server
             let message = Utilities.encode <| Utilities.serializeJson<InvoiceMessage> message
-            printfn "Sending Message....."
+            printfn "Sending Message......"
 
             //Sends message to server
             message |> Socket.send client
