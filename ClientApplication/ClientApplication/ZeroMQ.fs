@@ -2,26 +2,29 @@
 namespace InvoiceApp
  
 open fszmq
+open fszmq.Context
+open fszmq.Socket
 open System
 
 module ZeroMQ = 
 
     let client () =
+    // create a ZMQ context
         use context = new Context()
+  
+        // create a request socket
+        use client  = req context
+        // connect to the server
+        "tcp://localhost:5555" |> connect client
 
-        // socket to talk to server
-        printfn "Connecting to Server...........Connected"
-        use requester = context |> Context.req
-        "tcp://localhost:5555" |> Socket.connect requester
+        for i in 1 .. 1 do
+          // 'send' a request to the server
+          let request = "hello"
+          // NOTE: we need to 'encode' a string to binary (before transmission)
+          request |> Utilities.encode |> send client
+          printfn "(%i) sent: %s" i request
+          // receive and print a reply from the server
+          let reply = (recv >> Utilities.decode) client
+          printfn "(%i) got: %s" i reply
 
-        while true do
-            let message = Z85.decode "hello"
-            printfn "Sending Message....."
 
-            //Sends message to server
-            message |> Socket.send requester
-            printfn "Message sent!!"
-
-            //Recieves message as byte array a decode to string
-            let messageAsString = requester |> Socket.recv |> Z85.encode
-            printfn "Received: %A" messageAsString
