@@ -7,3 +7,6 @@ C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\D
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FSharp.Core.xml
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\obj\Debug\ServerApplication.exe
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\obj\Debug\ServerApplication.pdb
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\libzmq.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\fszmq.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\fszmq.xml

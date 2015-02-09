@@ -5,5 +5,7 @@ open System
 
 module main =
    
-  [<EntryPoint>] 
+  [<EntryPoint>]
+  ZeroMQServer.server()
+   
   Console.ReadKey() |> ignore
