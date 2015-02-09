@@ -24,12 +24,13 @@ module ZeroMQClient =
 
         for i in 1 .. 1 do
             // 'send' a request to the server
-            let request = Utilities.encode <| Utilities.serializeJson<InvoiceMessage> a
+            let message = Utilities.encode <| Utilities.serializeJson<InvoiceMessage> a
+            printf "%A" message
+            printfn "Sending Message....."
 
-            // NOTE: we need to 'encode' a string to binary (before transmission)
-            request |> Utilities.encode |> send client
-            printf "%A" request
-            printfn "Message Sent" 
+            //Sends message to server
+            message |> Socket.send client
+            printfn "Message sent!!"
 
             // receive and print a reply from the server
             let reply = (recv >> Utilities.decode) client

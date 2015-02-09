@@ -159,8 +159,8 @@ module UserInterface =
   let internal formData () = 
     ZeroMQClient.client <| (dtpDateFrom.Value, 
                             dtpDateTo.Value, 
-                            getMerchant <| cboInvoiceCurrency.SelectedItem.ToString(), 
-                            getCurrency <| cboMerchant.SelectedItem.ToString(), 
+                            getCurrency <| cboInvoiceCurrency.SelectedItem.ToString(), 
+                            getMerchant <| cboMerchant.SelectedItem.ToString(), 
                             Convert.ToDouble(txtProfitMargin.Text))
 
   let evtMessages = 
