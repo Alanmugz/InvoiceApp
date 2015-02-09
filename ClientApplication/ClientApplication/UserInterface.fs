@@ -8,7 +8,7 @@ open System.Windows.Forms
 module UserInterface = 
 
   let InvoiceCurrencies = [|"USD";"EUR";"CAD";"GBP";"NZD";"JPY"|]
-  let Merchants = [|"ANZ";"KLM";"Cebu";"Jet";"Ethiad"|]
+  let Merchants = [|"ANZ";"KLM";"Cebu";"Jet";"Eithad"|]
 
   // Create the form and a labels, datetimepickers and button
   let frm = new Form(Text = "Invoicing Application!", Height = 218, Width = 260)

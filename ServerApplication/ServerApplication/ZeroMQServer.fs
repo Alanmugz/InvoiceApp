@@ -19,12 +19,11 @@ module ZeroMQServer =
       // begin receiving connections
       bind server "tcp://*:5555"
   
-      let rec loop () =
+      while true do
         // process request (i.e. 'recv' a message from our 'server')
         // NOTE: it's convenient to 'decode' the (binary) message into a string
-        let messageReceived = server |> Socket.recv |> Utilities.decode |> Utilities.deserializeJson<InvoiceMessage>
+        let a = server |> recv |> Utilities.decode |> Utilities.deserializeJson<InvoiceMessage>
+        printf "%A %A %A %A %A\n" a.DateFrom a.DateTo a.InvoiceCurrency a.MerchantId a.ProfitMargin
 
-        printfn "Message recieved is %A" messageReceived
+        "Recieved"B |> Socket.send server
 
-      // wait for next request
-      loop () 
