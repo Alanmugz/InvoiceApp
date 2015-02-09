@@ -8,7 +8,7 @@ open System.Windows.Forms
 module UserInterface = 
 
   let InvoiceCurrencies = [|"USD";"EUR";"CAD";"GBP";"NZD";"JPY"|]
-  let Merchants = [|"Merchant A";"Merchant B";"Merchant C";"Merchant D";"Merchant E"|]
+  let Merchants = [|"ANZ";"KLM";"Cebu";"Jet";"Ethiad"|]
 
   // Create the form and a labels, datetimepickers and button
   let frm = new Form(Text = "Invoicing Application!", Height = 218, Width = 260)
@@ -137,8 +137,31 @@ module UserInterface =
 //                              cboMerchant.SelectedItem.ToString(), 
 //                              txtProfitMargin.Text)
 
+  let getMerchant merchant = 
+    match merchant with 
+    | "ANZ" -> 1
+    | "KLM" -> 2
+    | "Cebu" -> 3
+    | "Jet" -> 4
+    | "Eithad" -> 5
+    | _ -> -1
+
+  let getCurrency currency = 
+    match currency with 
+    | "USD" -> 1
+    | "EUR" -> 2
+    | "CAD" -> 3
+    | "GBP" -> 4
+    | "NZD" -> 5
+    | "JPY" -> 6
+    | _ -> -1
+
   let internal formData () = 
-    ZeroMQ.client()
+    ZeroMQ.client <| (dtpDateFrom.Value, 
+                      dtpDateTo.Value, 
+                      getMerchant <| cboInvoiceCurrency.SelectedItem.ToString(), 
+                      getCurrency <| cboMerchant.SelectedItem.ToString(), 
+                      Convert.ToDouble(txtProfitMargin.Text))
 
   let evtMessages = 
     btnGenerateInvoice.Click
