@@ -11,19 +11,20 @@ type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: in
 module ZeroMQServer =
 
     let server () =
-      // create a ZMQ context
-      use context = new Context()
+        // create a ZMQ context
+        use context = new Context()
   
-      // create reply socket
-      use server  = rep context
-      // begin receiving connections
-      bind server "tcp://*:5555"
+        // create reply socket
+        use server  = rep context
+        // begin receiving connections
+        bind server "tcp://*:5555"
+
+        printf "Starting server ....... started!!!!!\n"
   
-      while true do
-        // process request (i.e. 'recv' a message from our 'server')
-        // NOTE: it's convenient to 'decode' the (binary) message into a string
-        let a = server |> recv |> Utilities.decode |> Utilities.deserializeJson<InvoiceMessage>
-        printf "%A %A %A %A %A\n" a.DateFrom a.DateTo a.InvoiceCurrency a.MerchantId a.ProfitMargin
+        while true do
+            // process request (i.e. 'recv' a message from our 'server')
+            // NOTE: it's convenient to 'decode' the (binary) message into a string
+            let a = server |> recv |> Utilities.decode |> Utilities.deserializeJson<InvoiceMessage>
+            printf "%A %A %A %A %A\n" a.DateFrom a.DateTo a.InvoiceCurrency a.MerchantId a.ProfitMargin
 
-        "Recieved"B |> Socket.send server
-
+            "Recieved"B |> Socket.send server

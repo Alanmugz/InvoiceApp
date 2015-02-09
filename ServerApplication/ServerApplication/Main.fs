@@ -7,5 +7,3 @@ module main =
    
   [<EntryPoint>]
   ZeroMQServer.server()
-   
-  Console.ReadKey() |> ignore
