@@ -15,7 +15,7 @@ module Utilities =
       Encoding.ASCII.GetString(messageAsByte)
 
     let toString = System.Text.Encoding.ASCII.GetString
-    let toBytes (_string : string) = System.Text.Encoding.ASCII.GetBytes _string
+    let toBytes (string : string) = System.Text.Encoding.ASCII.GetBytes string
 
     let deserializeJson<'a> (json : string) =
         let jsonSerializer = new DataContractJsonSerializer(typedefof<'a>)

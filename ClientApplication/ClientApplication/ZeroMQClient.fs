@@ -10,7 +10,6 @@ module ZeroMQClient =
     
     type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: double}
 
-
     let client userInpuTuple =
         let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = userInpuTuple
         let a = {DateFrom = dateFrom; DateTo = dateTo; InvoiceCurrency = invoiceCurrency; MerchantId = merchantId; ProfitMargin = profitMargin}
@@ -29,6 +28,7 @@ module ZeroMQClient =
 
             // NOTE: we need to 'encode' a string to binary (before transmission)
             request |> Utilities.encode |> send client
+            printf "%A" request
             printfn "Message Sent" 
 
             // receive and print a reply from the server
