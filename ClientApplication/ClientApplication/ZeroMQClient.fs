@@ -12,7 +12,7 @@ module ZeroMQClient =
 
     let client userInpuTuple =
         let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = userInpuTuple
-        let a = {DateFrom = dateFrom; DateTo = dateTo; InvoiceCurrency = invoiceCurrency; MerchantId = merchantId; ProfitMargin = profitMargin}
+        let message = {DateFrom = dateFrom; DateTo = dateTo; InvoiceCurrency = invoiceCurrency; MerchantId = merchantId; ProfitMargin = profitMargin}
 
         // create a ZMQ context
         use context = new Context()
@@ -24,7 +24,7 @@ module ZeroMQClient =
 
         for i in 1 .. 1 do
             // 'send' a request to the server
-            let message = Utilities.encode <| Utilities.serializeJson<InvoiceMessage> a
+            let message = Utilities.encode <| Utilities.serializeJson<InvoiceMessage> message
             printfn "Sending Message....."
 
             //Sends message to server
