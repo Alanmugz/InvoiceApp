@@ -31,7 +31,6 @@ module ZeroMQClient =
             message |> Socket.send client
             printfn "Message sent!!"
 
-            // receive and print a reply from the server
             //Recieves message as byte array a decode to string
             let messageAsString = client |> Socket.recv |> Utilities.decode
             printfn "Reply: %A" messageAsString
