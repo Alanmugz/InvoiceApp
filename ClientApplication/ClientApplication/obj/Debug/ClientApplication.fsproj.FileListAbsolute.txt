@@ -1,9 +1,12 @@
-C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\obj\Debug\ClientApplication.fsprojResolveAssemblyReference.cache
+C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\libzmq.dll
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\ClientApplication.exe.config
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\ClientApplication.XML
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\ClientApplication.exe
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\ClientApplication.pdb
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\FSharp.Core.dll
+C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\fszmq.dll
+C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\fszmq.xml
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\bin\Debug\FSharp.Core.xml
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\obj\Debug\ClientApplication.exe
 C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\obj\Debug\ClientApplication.pdb
+C:\Users\amulligan\Desktop\CCS_Project\ClientApplication\ClientApplication\obj\Debug\ClientApplication.fsprojResolveAssemblyReference.cache

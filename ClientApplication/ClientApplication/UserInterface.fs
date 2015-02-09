@@ -5,7 +5,7 @@ open System
 open System.Drawing
 open System.Windows.Forms
 
-module GUI = 
+module UserInterface = 
 
   let InvoiceCurrencies = [|"USD";"EUR";"CAD";"GBP";"NZD";"JPY"|]
   let Merchants = [|"Merchant A";"Merchant B";"Merchant C";"Merchant D";"Merchant E"|]
@@ -136,11 +136,13 @@ module GUI =
 //                              cboInvoiceCurrency.SelectedItem.ToString(), 
 //                              cboMerchant.SelectedItem.ToString(), 
 //                              txtProfitMargin.Text)
-//
-//
-//  let evtMessages = 
-//    btnGenerateInvoice.Click
-//      |> Event.map (fun _ -> formData ())
+
+  let internal formData () = 
+    ZeroMQ.client()
+
+  let evtMessages = 
+    btnGenerateInvoice.Click
+      |> Event.map (fun _ -> formData ())
       
 
 

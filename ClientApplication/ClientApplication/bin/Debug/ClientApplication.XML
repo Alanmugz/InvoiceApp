@@ -44,7 +44,19 @@
 <member name="">
 
 </member>
-<member name="T:InvoiceApp.GUI">
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.UserInterface">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.ZeroMQ">
 
 </member>
 <member name="T:InvoiceApp.main">
