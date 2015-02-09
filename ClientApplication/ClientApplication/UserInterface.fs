@@ -157,11 +157,11 @@ module UserInterface =
     | _ -> -1
 
   let internal formData () = 
-    ZeroMQ.client <| (dtpDateFrom.Value, 
-                      dtpDateTo.Value, 
-                      getMerchant <| cboInvoiceCurrency.SelectedItem.ToString(), 
-                      getCurrency <| cboMerchant.SelectedItem.ToString(), 
-                      Convert.ToDouble(txtProfitMargin.Text))
+    ZeroMQClient.client <| (dtpDateFrom.Value, 
+                            dtpDateTo.Value, 
+                            getMerchant <| cboInvoiceCurrency.SelectedItem.ToString(), 
+                            getCurrency <| cboMerchant.SelectedItem.ToString(), 
+                            Convert.ToDouble(txtProfitMargin.Text))
 
   let evtMessages = 
     btnGenerateInvoice.Click

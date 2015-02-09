@@ -1,0 +1,9 @@
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\obj\Debug\ServerApplication.fsprojResolveAssemblyReference.cache
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\ServerApplication.exe.config
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\ServerApplication.XML
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\ServerApplication.exe
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\ServerApplication.pdb
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FSharp.Core.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FSharp.Core.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\obj\Debug\ServerApplication.exe
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\obj\Debug\ServerApplication.pdb

@@ -98,7 +98,7 @@
 <member name="">
 
 </member>
-<member name="T:InvoiceApp.ZeroMQ">
+<member name="T:InvoiceApp.ZeroMQClient">
 
 </member>
 <member name="T:InvoiceApp.main">

@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities.fs" />
-    <Compile Include="ZeroMQ.fs" />
+    <Compile Include="ZeroMQClient.fs" />
     <Compile Include="UserInterface.fs" />
     <Compile Include="Main.fs" />
     <None Include="App.config" />
