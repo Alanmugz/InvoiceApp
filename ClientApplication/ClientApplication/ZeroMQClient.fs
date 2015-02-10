@@ -10,8 +10,8 @@ module ZeroMQClient =
     
     type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: double}
 
-    let client userInpuTuple =
-        let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = userInpuTuple
+    let client m_userInpuTuple =
+        let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = m_userInpuTuple
         let message = {DateFrom = dateFrom; DateTo = dateTo; InvoiceCurrency = invoiceCurrency; MerchantId = merchantId; ProfitMargin = profitMargin}
 
         // create a ZMQ context

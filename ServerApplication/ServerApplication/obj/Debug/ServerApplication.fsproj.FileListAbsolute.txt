@@ -10,3 +10,12 @@ C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\obj\D
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\libzmq.dll
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\fszmq.dll
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\fszmq.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Mono.Security.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Npgsql.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Npgsql.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\de\Npgsql.resources.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\es\Npgsql.resources.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\fi\Npgsql.resources.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\fr\Npgsql.resources.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\ja\Npgsql.resources.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\zh-CN\Npgsql.resources.dll

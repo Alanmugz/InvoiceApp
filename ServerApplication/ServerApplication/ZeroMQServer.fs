@@ -26,5 +26,5 @@ module ZeroMQServer =
             // NOTE: it's convenient to 'decode' the (binary) message into a string
             let a = server |> recv |> Utilities.decode |> Utilities.deserializeJson<InvoiceMessage>
             printf "%A %A %A %A %A\n" a.DateFrom a.DateTo a.InvoiceCurrency a.MerchantId a.ProfitMargin
-
+            DatabaseConnection.printResults()
             "Recieved"B |> Socket.send server
