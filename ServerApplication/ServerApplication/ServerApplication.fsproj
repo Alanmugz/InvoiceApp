@@ -60,8 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseConnection.fs" />
     <Compile Include="Utilities.fs" />
+    <Compile Include="DatabaseConnection.fs" />
     <Compile Include="ZeroMQServer.fs" />
     <Compile Include="Main.fs" />
     <None Include="App.config" />

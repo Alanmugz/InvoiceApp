@@ -7,7 +7,9 @@ open System.Runtime.Serialization.Json
 open System.Text
 
 module Utilities = 
-   
+
+    type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: double}
+
     let encode messageAsStr = 
       Encoding.ASCII.GetBytes(messageAsStr.ToString())
 

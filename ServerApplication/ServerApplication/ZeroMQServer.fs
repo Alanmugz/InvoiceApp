@@ -6,7 +6,6 @@ open fszmq.Context
 open fszmq.Socket
 open System
 
-type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: double}
 
 module ZeroMQServer =
 
@@ -24,7 +23,8 @@ module ZeroMQServer =
         while true do
             // process request (i.e. 'recv' a message from our 'server')
             // NOTE: it's convenient to 'decode' the (binary) message into a string
-            let a = server |> recv |> Utilities.decode |> Utilities.deserializeJson<InvoiceMessage>
-            printf "%A %A %A %A %A\n" a.DateFrom a.DateTo a.InvoiceCurrency a.MerchantId a.ProfitMargin
-            DatabaseConnection.printResults()
+            let recievedMessage = server |> recv |> Utilities.decode |> Utilities.deserializeJson<Utilities.InvoiceMessage>
+
+            DatabaseConnection.printResults recievedMessage ()
+
             "Recieved"B |> Socket.send server

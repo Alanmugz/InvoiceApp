@@ -24,6 +24,7 @@ module ZeroMQClient =
 
         for i in 1 .. 1 do
             // 'send' a request to the server
+            printf "%A" (m_userInpuTuple.GetType())
             let message = Utilities.encode <| Utilities.serializeJson<InvoiceMessage> message
             printfn "Sending Message......"
 

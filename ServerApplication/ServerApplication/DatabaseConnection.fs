@@ -15,15 +15,18 @@ module DatabaseConnection =
                 yield [for i in [0..dataReader.FieldCount-1] -> dataReader.[i]]
         }
 
-    let printResults () =
+    let printResults (message : Utilities.InvoiceMessage) () =
         let conn = new NpgsqlConnection(connectionString)
         conn.Open()
+
+        let query = String.Format("SELECT \"TransactionId\" 
+                                  FROM \"Transaction\" 
+                                  WHERE \"MerchantId\" = {0} AND \"CreationTimestamp\"  >= '{1} 00:00:00'::timestamp without time zone 
+                                                           AND \"CreationTimestamp\"  <= '{2} 23:59:59'::timestamp without time zone
+                                  ORDER BY \"CreationTimestamp\" Limit 10;", message.MerchantId, message.DateFrom.ToShortDateString(), message.DateTo.ToShortDateString())
+
         try
-            let resultSet = getResultSet <| conn <| "SELECT \"TransactionId\"
-                                                     FROM \"Transaction\"
-                                                     WHERE \"MerchantId\" = 1 AND \"CreationTimestamp\"  >= '2015-01-12 00:00:00'::timestamp without time zone
-                                                                              AND \"CreationTimestamp\"  <= '2015-01-13 23:59:59'::timestamp without time zone
-                                                     ORDER BY \"CreationTimestamp\" Limit 1;"
+            let resultSet = getResultSet <| conn <| query
             for r in resultSet do
                 for d in r do
                     printf "%s\t" (d.ToString())
