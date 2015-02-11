@@ -17,7 +17,7 @@ module DatabaseConnection =
                         PaymentMarginValue: double;
                         CreationTimeStamp: DateTime;}
     
-    let private getResultSet (connection:NpgsqlConnection) (queryString:string) =
+    let private getResultSet (connection: NpgsqlConnection) (queryString: string) =
         let transactionLists = new List<Transcation>()
         let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
@@ -39,15 +39,14 @@ module DatabaseConnection =
         let conn = new NpgsqlConnection(connectionString)
         conn.Open()
 
-        let query = String.Format("SELECT \"MerchantId\", \"MessageTypeId\", \"SaleCurrencyId\", \"PaymentCurrencyId\", \"PaymentValue\", \"PaymentMarginValue\", \"CreationTimestamp\" 
+        let queryString = String.Format("SELECT \"MerchantId\", \"MessageTypeId\", \"SaleCurrencyId\", \"PaymentCurrencyId\", \"PaymentValue\", \"PaymentMarginValue\", \"CreationTimestamp\" 
                                   FROM \"Transaction\" 
                                   WHERE \"MerchantId\" = {0} AND \"CreationTimestamp\"  >= '{1} 00:00:00'::timestamp without time zone 
                                                            AND \"CreationTimestamp\"  <= '{2} 23:59:59'::timestamp without time zone
                                   ORDER BY \"CreationTimestamp\";", message.MerchantId, message.DateFrom.ToShortDateString(), message.DateTo.ToShortDateString())
 
         try
-            let resultSet = getResultSet <| conn <| query
-
+            let resultSet = getResultSet <| conn <| queryString
             for value in resultSet do
                 printfn "%A\t%A\t%A\t%A\t%A\t%A" (value.MerchantId) (value.MessageTypeId) (value.SaleCurrencyId) (value.PaymentCurrencyId) (value.PaymentValue) (value.PaymentMarginValue)
         finally
