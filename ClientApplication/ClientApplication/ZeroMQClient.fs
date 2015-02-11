@@ -5,10 +5,9 @@ open fszmq
 open fszmq.Context
 open fszmq.Socket
 open System
+open Utilities
 
 module ZeroMQClient =
-    
-    type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: double}
 
     let client m_userInpuTuple =
         let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = m_userInpuTuple
@@ -25,7 +24,7 @@ module ZeroMQClient =
         for i in 1 .. 1 do
             // 'send' a request to the server
             printf "%A" (m_userInpuTuple.GetType())
-            let message = Utilities.encode <| Utilities.serializeJson<InvoiceMessage> message
+            let message = encode <| serializeJson<InvoiceMessage> message
             printfn "Sending Message......"
 
             //Sends message to server
@@ -33,7 +32,7 @@ module ZeroMQClient =
             printfn "Message sent!!"
 
             //Recieves message as byte array a decode to string
-            let messageAsString = client |> Socket.recv |> Utilities.decode
+            let messageAsString = client |> Socket.recv |> decode
             printfn "Reply: %A" messageAsString
 
 

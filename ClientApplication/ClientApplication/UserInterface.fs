@@ -4,6 +4,7 @@ namespace InvoiceApp
 open System
 open System.Drawing
 open System.Windows.Forms
+open ZeroMQClient
 
 module UserInterface = 
 
@@ -133,13 +134,6 @@ module UserInterface =
   frm.Controls.Add(cboMerchant)
   frm.Show()
 
-//  let internal formData ()= 
-//    Database.printResults <| (dtpDateFrom.Value.ToString("yyyy-MM-dd"), 
-//                              dtpDateTo.Value.ToString("yyyy-MM-dd"), 
-//                              cboInvoiceCurrency.SelectedItem.ToString(), 
-//                              cboMerchant.SelectedItem.ToString(), 
-//                              txtProfitMargin.Text)
-
   let getMerchant merchant = 
     match merchant with 
     | "ANZ" -> 1
@@ -160,7 +154,7 @@ module UserInterface =
     | _ -> -1
 
   let internal formData () = 
-    ZeroMQClient.client <| (dtpDateFrom.Value, 
+    client <| (dtpDateFrom.Value, 
                             dtpDateTo.Value, 
                             getCurrency <| cboInvoiceCurrency.SelectedItem.ToString(), 
                             getMerchant <| cboMerchant.SelectedItem.ToString(), 

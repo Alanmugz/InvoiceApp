@@ -5,6 +5,7 @@ open fszmq
 open fszmq.Context
 open fszmq.Socket
 open System
+open Utilities
 
 
 module ZeroMQServer =
@@ -23,7 +24,7 @@ module ZeroMQServer =
         while true do
             // process request (i.e. 'recv' a message from our 'server')
             // NOTE: it's convenient to 'decode' the (binary) message into a string
-            let recievedMessage = server |> recv |> Utilities.decode |> Utilities.deserializeJson<Utilities.InvoiceMessage>
+            let recievedMessage = server |> recv |> decode |> deserializeJson<InvoiceMessage>
 
             DatabaseConnection.printResults recievedMessage ()
 

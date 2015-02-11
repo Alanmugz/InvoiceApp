@@ -1,9 +1,10 @@
 ﻿
 namespace InvoiceApp
- 
+
 open Npgsql
 open System
 open System.Collections.Generic
+open Utilities
 
 module DatabaseConnection =
 
@@ -15,9 +16,6 @@ module DatabaseConnection =
                         PaymentValue: double;
                         PaymentMarginValue: double;
                         CreationTimeStamp: DateTime;}
-
-
-    let private connectionString = "Server = localhost; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
     
     let private getResultSet (connection:NpgsqlConnection) (queryString:string) =
         let transactionLists = new List<Transcation>()
@@ -36,7 +34,7 @@ module DatabaseConnection =
         transactionLists
         
 
-    let printResults (message : Utilities.InvoiceMessage) () =
+    let printResults (message : InvoiceMessage) () =
         
         let conn = new NpgsqlConnection(connectionString)
         conn.Open()
@@ -51,7 +49,7 @@ module DatabaseConnection =
             let resultSet = getResultSet <| conn <| query
 
             for value in resultSet do
-                printfn "%A" (value.ToString())
+                printfn "%A\t%A\t%A\t%A\t%A\t%A" (value.MerchantId) (value.MessageTypeId) (value.SaleCurrencyId) (value.PaymentCurrencyId) (value.PaymentValue) (value.PaymentMarginValue)
         finally
             conn.Close()
 

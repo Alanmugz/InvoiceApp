@@ -32,3 +32,4 @@ module Utilities =
         jsonSerializer.WriteObject(stream, x)
         toString <| stream.ToArray()
 
+    let connectionString = "Server = localhost; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
