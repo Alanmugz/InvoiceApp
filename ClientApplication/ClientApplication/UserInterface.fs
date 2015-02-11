@@ -39,6 +39,7 @@ module UserInterface =
   dtpDateFrom.Name <- "dtpDateFrom";
   dtpDateFrom.Size <- new System.Drawing.Size(117, 20);
   dtpDateFrom.TabIndex <- 1;
+  dtpDateFrom.Value <- new DateTime(2015,1,20);
   // 
   // lblDateTo
   // 
@@ -55,6 +56,7 @@ module UserInterface =
   dtpDateTo.Name <- "dtpDateTo";
   dtpDateTo.Size <- new System.Drawing.Size(117, 20);
   dtpDateTo.TabIndex <- 2;
+  dtpDateTo.Value <- new DateTime(2015,1,21);
   // 
   // lblInvoiceCurrency
   // 
@@ -80,6 +82,7 @@ module UserInterface =
   txtProfitMargin.Name <- "txtProfitMargin";
   txtProfitMargin.Size <- new System.Drawing.Size(115, 20);
   txtProfitMargin.TabIndex <- 5;
+  txtProfitMargin.Text <- "2.3";
   // 
   // lblProfitMargin
   // 
