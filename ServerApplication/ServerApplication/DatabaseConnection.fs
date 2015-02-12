@@ -4,6 +4,7 @@ namespace InvoiceApp
 open Npgsql
 open System
 open System.Collections.Generic
+open System.Linq
 open Utilities
 
 module DatabaseConnection =
@@ -31,9 +32,12 @@ module DatabaseConnection =
         
         while dataReader.Read() do
             let currencyCode = {CurrencyId = dataReader.GetInt32(0); 
-                                CurrencyCode = dataReader.GetInt32(1);}
+                                CurrencyCode = dataReader.GetString(1);}
             currencyCodeList.Add(currencyCode)
         currencyCodeList
+
+    let doStuff z : string =
+        z
 
         
     let getAll (_message : InvoiceMessage) () =
@@ -44,25 +48,27 @@ module DatabaseConnection =
         let getAllTransactionQueryString = String.Format("SELECT \"MerchantId\", \"MessageTypeId\", \"SaleCurrencyId\", \"PaymentCurrencyId\", \"PaymentValue\", \"PaymentMarginValue\", \"CreationTimestamp\" 
                                                           FROM \"Transaction\"")
 
-        let getAllCurrenyCodes = String.Format("SELECT * 
-                                                FROM \"SaleCurrency\"")
+        let getAllCurrenyCodesQueryString = String.Format("SELECT * 
+                                                           FROM \"SaleCurrrency\"")
 
         try
-            let resultSetCurrencyCode = getAllCurrenyCodesResultsSet <| conn <| getAllTransactionQueryString
+            let resultSetCurrencyCode = getAllCurrenyCodesResultsSet <| conn <| getAllCurrenyCodesQueryString
             let resultSetTransaction = getAllTransactionResultSet <| conn <| getAllTransactionQueryString
 
             let linqExample =
-                query { for rst in resultSetTransaction do
+                query { for rst in resultSetTransaction do 
+                        join rct in resultSetCurrencyCode on
+                              (rst.SaleCurrencyId = rct.CurrencyId)
                         where (rst.MerchantId = _message.MerchantId)
                         where (rst.CreationTimeStamp >= _message.DateFrom)
                         where (rst.CreationTimeStamp <= _message.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.9))
-                        sortBy rst.SaleCurrencyId
-                        groupBy rst.SaleCurrencyId into group
+                        groupBy rct.CurrencyCode into g
                         let sum =
-                            query { for p in group do
-                                    sumBy(double p.PaymentMarginValue)
+                            query { for p in g do
+                                    let a, b = p
+                                    sumBy(double a.PaymentMarginValue)
                             }
-                        select (group.Key, sum)
+                        select (g.Key, Math.Round(sum, 2), doStuff g.Key)  
                 } |> Seq.toList
             Console.Clear()
             linqExample |> Seq.iter (fun x -> printf "%A\n" x)

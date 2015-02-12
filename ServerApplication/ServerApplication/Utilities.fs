@@ -21,7 +21,7 @@ module Utilities =
 
     [<CLIMutable>]
     type Currencycode = {CurrencyId: int; 
-                         CurrencyCode: int;}
+                         CurrencyCode: string;}
 
     let encode messageAsStr = 
       Encoding.ASCII.GetBytes(messageAsStr.ToString())
