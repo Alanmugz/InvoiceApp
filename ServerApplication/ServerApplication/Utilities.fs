@@ -10,6 +10,19 @@ module Utilities =
 
     type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: double}
 
+    [<CLIMutable>]
+    type Transcation = {MerchantId: int; 
+                        MessageTypeId: int; 
+                        SaleCurrencyId: int;
+                        PaymentCurrencyId: int;
+                        PaymentValue: double;
+                        PaymentMarginValue: double;
+                        CreationTimeStamp: DateTime;}
+
+    [<CLIMutable>]
+    type Currencycode = {CurrencyId: int; 
+                         CurrencyCode: int;}
+
     let encode messageAsStr = 
       Encoding.ASCII.GetBytes(messageAsStr.ToString())
 

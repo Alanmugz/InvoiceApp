@@ -1,6 +1,7 @@
 ﻿
 namespace InvoiceApp
  
+open DatabaseConnection
 open fszmq
 open fszmq.Context
 open fszmq.Socket
@@ -26,6 +27,6 @@ module ZeroMQServer =
             // NOTE: it's convenient to 'decode' the (binary) message into a string
             let recievedMessage = server |> recv |> decode |> deserializeJson<InvoiceMessage>
 
-            DatabaseConnection.printResults recievedMessage ()
+            getAll recievedMessage ()
 
             "Recieved"B |> Socket.send server
