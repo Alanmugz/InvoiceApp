@@ -77,7 +77,7 @@ module DatabaseConnection =
                 
             printf"      %s %A" (getCurrency _message.InvoiceCurrency) total
 
-            printfn "\nCCS Profit - %s %A" (getCurrency _message.InvoiceCurrency) (Math.Round((total / 100.0M * 2.3M),2))
+            printfn "\nCCS Profit - %s %A" (getCurrency _message.InvoiceCurrency) (Math.Round((total / 100.0M * _message.ProfitMargin),2))
 
         finally
             conn.Close()

@@ -8,7 +8,7 @@ open System.Text
 
 module Utilities = 
 
-    type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: double}
+    type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: decimal}
 
     [<CLIMutable>]
     type Transcation = {MerchantId: int; 
