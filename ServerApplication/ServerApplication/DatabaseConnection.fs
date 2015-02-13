@@ -7,6 +7,7 @@ open System
 open System.Collections.Generic
 open System.Linq
 open Utilities
+open Excel
 
 module DatabaseConnection =
     
@@ -64,7 +65,7 @@ module DatabaseConnection =
                             query { for p in g do
                                     let a, b = p
                                     sumBy(decimal a.PaymentMarginValue)
-                            }
+                            }                                                                //fix this
                         select (g.Key, Math.Round(sum / (getRates g.Key <| getCurrency _message.MerchantId), 2))
                 } 
             Console.Clear()
@@ -78,6 +79,8 @@ module DatabaseConnection =
             printf"      %s %A" (getCurrency _message.InvoiceCurrency) total
 
             printfn "\nCCS Profit - %s %A" (getCurrency _message.InvoiceCurrency) (Math.Round((total / 100.0M * _message.ProfitMargin),2))
+
+            doStuff linqExample
 
         finally
             conn.Close()

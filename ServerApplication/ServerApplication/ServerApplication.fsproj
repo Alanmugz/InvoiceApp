@@ -51,6 +51,7 @@
       <HintPath>..\packages\Http.fs.1.5.1\lib\net40\HttpClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="Mono.Security">
       <HintPath>..\packages\Npgsql.2.2.4.3\lib\net45\Mono.Security.dll</HintPath>
       <Private>True</Private>
@@ -72,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Utilities.fs" />
     <Compile Include="HttpExchangeRate.fs" />
+    <Compile Include="WriteToFile.fs" />
     <Compile Include="DatabaseConnection.fs" />
     <Compile Include="ZeroMQServer.fs" />
     <Compile Include="Main.fs" />
