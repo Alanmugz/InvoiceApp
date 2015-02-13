@@ -11,10 +11,19 @@
 <member name="">
 
 </member>
+<member name="T:InvoiceApp.DatabaseConnection">
+
+</member>
 <member name="">
 
 </member>
-<member name="T:InvoiceApp.DatabaseConnection">
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.HttpRates">
+
+</member>
+<member name="">
 
 </member>
 <member name="">

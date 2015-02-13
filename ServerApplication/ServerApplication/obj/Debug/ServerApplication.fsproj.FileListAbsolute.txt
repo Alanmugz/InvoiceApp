@@ -19,3 +19,7 @@ C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\D
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\fr\Npgsql.resources.dll
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\ja\Npgsql.resources.dll
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\zh-CN\Npgsql.resources.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FSharp.Data.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\HttpClient.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FSharp.Data.pdb
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FSharp.Data.xml

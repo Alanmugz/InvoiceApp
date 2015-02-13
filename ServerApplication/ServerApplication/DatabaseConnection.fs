@@ -1,6 +1,7 @@
 ﻿
 namespace InvoiceApp
 
+open HttpRates
 open Npgsql
 open System
 open System.Collections.Generic
@@ -35,10 +36,6 @@ module DatabaseConnection =
                                 CurrencyCode = dataReader.GetString(1);}
             currencyCodeList.Add(currencyCode)
         currencyCodeList
-
-    let doStuff z : string =
-        z
-
         
     let getAll (_message : InvoiceMessage) () =
         
@@ -66,12 +63,22 @@ module DatabaseConnection =
                         let sum =
                             query { for p in g do
                                     let a, b = p
-                                    sumBy(double a.PaymentMarginValue)
+                                    sumBy(decimal a.PaymentMarginValue)
                             }
-                        select (g.Key, Math.Round(sum, 2), doStuff g.Key)  
-                } |> Seq.toList
+                        select (g.Key, Math.Round(sum / (getRates g.Key <| getCurrency _message.MerchantId), 2))
+                } 
             Console.Clear()
-            linqExample |> Seq.iter (fun x -> printf "%A\n" x)
+            linqExample |> Seq.iter (fun (x, y) -> printf "%s - %s %O\n" x (getCurrency _message.InvoiceCurrency) y)
+            printf "-------------------\n" 
+
+            let sum (x: seq<string * decimal>) = x |> Seq.fold(fun (acc: decimal) (a, b) -> acc + b) 0.0M
+            
+            let total = sum linqExample
+                
+            printf"      %s %A" (getCurrency _message.InvoiceCurrency) total
+
+            printfn "\nCCS Profit - %s %A" (getCurrency _message.InvoiceCurrency) (Math.Round((total / 100.0M * 2.3M),2))
+
         finally
             conn.Close()
 

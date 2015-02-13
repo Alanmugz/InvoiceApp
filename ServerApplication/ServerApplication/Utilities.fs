@@ -46,3 +46,13 @@ module Utilities =
         toString <| stream.ToArray()
 
     let connectionString = "Server = localhost; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
+
+    let getCurrency currency = 
+        match currency with 
+        | 1 -> "USD"
+        | 2 -> "EUR"
+        | 3 -> "CAD"
+        | 4 ->"GBP"
+        | 5 -> "NZD"
+        | 6 -> "JPY"
+        | _ -> ""
