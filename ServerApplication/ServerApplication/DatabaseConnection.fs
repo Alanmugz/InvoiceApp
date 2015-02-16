@@ -1,7 +1,6 @@
 ﻿
 namespace InvoiceApp
 
-open HttpRates
 open Npgsql
 open System
 open System.Collections.Generic
@@ -47,7 +46,7 @@ module QueryDatabase =
             let resultSetCurrencyCode = getAllCurrenyCodesResultsSet <| conn <| Utilities.Database.getAllCurrenyCodesQueryString
             let resultSetTransaction = getAllTransactionResultSet <| conn <| Utilities.Database.getAllTransactionQueryString
 
-            let selectedCurrencyCode = Utilities.getCurrencyCode _message.InvoiceCurrency
+            let selectedInvoicingCurrencyCode = Utilities.getCurrencyCode _message.InvoiceCurrency
 
             (* rsc - resultSetCurrencyCode
                rst - resultSetTransaction *)
@@ -65,12 +64,12 @@ module QueryDatabase =
                                     let transaction, currrencyCode = value
                                     sumBy(decimal transaction.PaymentMarginValue)
                             }                                                               
-                        select (group.Key, Math.Round(sumByGroup / (getRates group.Key <| selectedCurrencyCode), 2))
+                        select (group.Key, Math.Round(sumByGroup / (Http.getRates group.Key <| selectedInvoicingCurrencyCode), 2))
                 }
                  
             Console.Clear()
 
-            linqQuery |> Seq.iter (fun (currencyCode, totalPerCurrency) -> printf "%s - %s %O\n" currencyCode (selectedCurrencyCode) totalPerCurrency)
+            linqQuery |> Seq.iter (fun (currencyCode, totalPerCurrency) -> printf "%s - %s %O\n" currencyCode (selectedInvoicingCurrencyCode) totalPerCurrency)
             printf "-------------------\n" 
 
             let sumAllGroupedTransactions (x: seq<string * decimal>) = 
@@ -78,11 +77,15 @@ module QueryDatabase =
             
             let total = sumAllGroupedTransactions linqQuery
                 
-            printf"      %s %A" (selectedCurrencyCode) total
+            printf"     %s %A" (selectedInvoicingCurrencyCode) total
 
-            printfn "\nCCS Profit - %s %A" (selectedCurrencyCode) (Math.Round((total / 100.0M * _message.ProfitMargin),2))
+            printfn "\nCCS Profit - %s %A" (selectedInvoicingCurrencyCode) (Math.Round((total / 100.0M * _message.ProfitMargin),2))
 
-            printInvoice linqQuery
+            printInvoice linqQuery _message.ProfitMargin selectedInvoicingCurrencyCode
+
+            let x = Http.getRates "EUR" selectedInvoicingCurrencyCode
+
+            printfn "%A" x
 
         finally
             conn.Close()

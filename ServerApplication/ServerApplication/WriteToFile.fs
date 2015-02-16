@@ -2,14 +2,41 @@
 
 namespace InvoiceApp
 
+open System.IO
+open Microsoft.Office
+open Microsoft.Office.Interop.Excel
 open Microsoft.Office.Interop
 
 module Excel = 
     
-    let mutable r = 1
+    let mutable row = 16
 
-    let printInvoice linqExample =
-        // Start Excel, Open a exiting file for input and create a new file for output
+    let printInvoice linqExample profitMargin selectedInvoicingCurrencyCode =
+
+       let app = new ApplicationClass(Visible = true) 
+
+       // Create new file and get the first worksheet
+       let workbook = app.Workbooks.Open(@"C:\Users\amulligan\Desktop\Book1.xlsx")
+       // Note that worksheets are indexed from one instead of zero
+       let worksheet = (workbook.Worksheets.[1] :?> Worksheet)
+
+       //ExchangeRate
+       worksheet.Cells.[5,3] <- selectedInvoicingCurrencyCode
+       //ExchangeRate
+       worksheet.Cells.[6,3] <- profitMargin
+       //ProfitMargin
+       worksheet.Cells.[7,3] <- Http.getRates "EUR" selectedInvoicingCurrencyCode
+
+       let stuff x y = 
+           worksheet.Cells.[row,3] <- x
+           worksheet.Cells.[row,5] <- y
+           row <- row + 1
+
+       linqExample |> Seq.iter (fun (x, y) -> stuff x y)
+
+       row <- 16
+
+        (* Start Excel, Open a exiting file for input and create a new file for output
         let xlApp = new Excel.ApplicationClass()
         let xlWorkBookInput = xlApp.Workbooks.Open(@"C:\Users\amulligan\Desktop\Book1.xlsx")
         let xlWorkBookOutput = xlApp.Workbooks.Add()
@@ -30,4 +57,4 @@ module Excel =
         xlWorkSheetOutput.Cells.[r,1] <- "Total"
         xlWorkSheetOutput.Cells.[r,2] <- 
 
-        r <- 1
+        r <- 1*)

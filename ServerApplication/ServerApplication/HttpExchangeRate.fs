@@ -6,7 +6,7 @@ open System
 open HttpClient
 open FSharp.Data
 
-module HttpRates = 
+module Http = 
 
     type Sample = JsonProvider<""" {"to": "EUR", "rate": 0.88111099999999998, "from": "USD"} """>
 
