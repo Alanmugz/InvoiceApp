@@ -2,6 +2,9 @@
 <doc>
 <assembly><name>ClientApplication</name></assembly>
 <members>
+<member name="T:InvoiceApp.Main">
+
+</member>
 <member name="">
 
 </member>
@@ -99,9 +102,6 @@
 
 </member>
 <member name="T:InvoiceApp.ZeroMQClient">
-
-</member>
-<member name="T:InvoiceApp.main">
 
 </member>
 </members>

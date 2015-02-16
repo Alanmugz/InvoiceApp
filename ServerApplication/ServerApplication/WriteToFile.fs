@@ -8,7 +8,7 @@ module Excel =
     
     let mutable r = 1
 
-    let doStuff linqExample =
+    let printInvoice linqExample =
         // Start Excel, Open a exiting file for input and create a new file for output
         let xlApp = new Excel.ApplicationClass()
         let xlWorkBookInput = xlApp.Workbooks.Open(@"C:\Users\amulligan\Desktop\Book1.xlsx")

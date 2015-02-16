@@ -8,18 +8,6 @@
 <member name="">
 
 </member>
-<member name="">
-
-</member>
-<member name="T:InvoiceApp.DatabaseConnection">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
 <member name="T:InvoiceApp.Excel">
 
 </member>
@@ -32,7 +20,58 @@
 <member name="T:InvoiceApp.HttpRates">
 
 </member>
+<member name="T:InvoiceApp.Main">
+
+</member>
 <member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.QueryDatabase">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Utilities.Database">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Utilities.ZeroMQ">
 
 </member>
 <member name="">
@@ -68,7 +107,7 @@
 <member name="">
 
 </member>
-<member name="">
+<member name="T:InvoiceApp.Utilities.RelationTable">
 
 </member>
 <member name="">
@@ -89,22 +128,7 @@
 <member name="">
 
 </member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
+<member name="T:InvoiceApp.Utilities.MessageTypes">
 
 </member>
 <member name="T:InvoiceApp.Utilities">
@@ -114,9 +138,6 @@
 
 </member>
 <member name="T:InvoiceApp.ZeroMQServer">
-
-</member>
-<member name="T:InvoiceApp.main">
 
 </member>
 </members>

@@ -9,78 +9,80 @@ open System.Linq
 open Utilities
 open Excel
 
-module DatabaseConnection =
+module QueryDatabase =
     
     let private getAllTransactionResultSet (connection: NpgsqlConnection) (queryString: string) =
-        let transactionLists = new List<Transcation>()
+        let transactionLists = new List<Utilities.RelationTable.Transcation>()
         let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
         
         while dataReader.Read() do
-            let transaction = {MerchantId = dataReader.GetInt32(0); 
-                               MessageTypeId = dataReader.GetInt32(1); 
-                               SaleCurrencyId = dataReader.GetInt32(2);
-                               PaymentCurrencyId = dataReader.GetInt32(3);
-                               PaymentValue = dataReader.GetDouble(4);
-                               PaymentMarginValue = dataReader.GetDouble(5);
-                               CreationTimeStamp = dataReader.GetDateTime(6)}
+            let transaction = {Utilities.RelationTable.Transcation.MerchantId = dataReader.GetInt32(0); 
+                               Utilities.RelationTable.Transcation.MessageTypeId = dataReader.GetInt32(1); 
+                               Utilities.RelationTable.Transcation.SaleCurrencyId = dataReader.GetInt32(2);
+                               Utilities.RelationTable.Transcation.PaymentCurrencyId = dataReader.GetInt32(3);
+                               Utilities.RelationTable.Transcation.PaymentValue = dataReader.GetDouble(4);
+                               Utilities.RelationTable.Transcation.PaymentMarginValue = dataReader.GetDouble(5);
+                               Utilities.RelationTable.Transcation.CreationTimeStamp = dataReader.GetDateTime(6)}
             transactionLists.Add(transaction)
         transactionLists
 
     let private getAllCurrenyCodesResultsSet (connection: NpgsqlConnection) (queryString: string) =
-        let currencyCodeList = new List<Currencycode>()
+        let currencyCodeList = new List<Utilities.RelationTable.Currencycode>()
         let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
         
         while dataReader.Read() do
-            let currencyCode = {CurrencyId = dataReader.GetInt32(0); 
-                                CurrencyCode = dataReader.GetString(1);}
+            let currencyCode = {Utilities.RelationTable.Currencycode.CurrencyId = dataReader.GetInt32(0); 
+                                Utilities.RelationTable.Currencycode.CurrencyCode = dataReader.GetString(1);}
             currencyCodeList.Add(currencyCode)
         currencyCodeList
         
-    let getAll (_message : InvoiceMessage) () =
+    let getAllTransactions (_message : Utilities.MessageTypes.InvoiceMessage) () =
         
-        let conn = new NpgsqlConnection(connectionString)
+        let conn = Utilities.Database.openConnection
         conn.Open()
 
-        let getAllTransactionQueryString = String.Format("SELECT \"MerchantId\", \"MessageTypeId\", \"SaleCurrencyId\", \"PaymentCurrencyId\", \"PaymentValue\", \"PaymentMarginValue\", \"CreationTimestamp\" 
-                                                          FROM \"Transaction\"")
-
-        let getAllCurrenyCodesQueryString = String.Format("SELECT * 
-                                                           FROM \"SaleCurrrency\"")
-
         try
-            let resultSetCurrencyCode = getAllCurrenyCodesResultsSet <| conn <| getAllCurrenyCodesQueryString
-            let resultSetTransaction = getAllTransactionResultSet <| conn <| getAllTransactionQueryString
+            let resultSetCurrencyCode = getAllCurrenyCodesResultsSet <| conn <| Utilities.Database.getAllCurrenyCodesQueryString
+            let resultSetTransaction = getAllTransactionResultSet <| conn <| Utilities.Database.getAllTransactionQueryString
 
-            let linqExample =
+            let selectedCurrencyCode = Utilities.getCurrencyCode _message.InvoiceCurrency
+
+            (* rsc - resultSetCurrencyCode
+               rst - resultSetTransaction *)
+
+            let linqQuery =
                 query { for rst in resultSetTransaction do 
                         join rct in resultSetCurrencyCode on
                               (rst.SaleCurrencyId = rct.CurrencyId)
                         where (rst.MerchantId = _message.MerchantId)
                         where (rst.CreationTimeStamp >= _message.DateFrom)
                         where (rst.CreationTimeStamp <= _message.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.9))
-                        groupBy rct.CurrencyCode into g
-                        let sum =
-                            query { for p in g do
-                                    let a, b = p
-                                    sumBy(decimal a.PaymentMarginValue)
-                            }                                                                //fix this
-                        select (g.Key, Math.Round(sum / (getRates g.Key <| getCurrency _message.MerchantId), 2))
-                } 
+                        groupBy rct.CurrencyCode into group
+                        let sumByGroup =
+                            query { for value in group do
+                                    let transaction, currrencyCode = value
+                                    sumBy(decimal transaction.PaymentMarginValue)
+                            }                                                               
+                        select (group.Key, Math.Round(sumByGroup / (getRates group.Key <| selectedCurrencyCode), 2))
+                }
+                 
             Console.Clear()
-            linqExample |> Seq.iter (fun (x, y) -> printf "%s - %s %O\n" x (getCurrency _message.InvoiceCurrency) y)
+
+            linqQuery |> Seq.iter (fun (currencyCode, totalPerCurrency) -> printf "%s - %s %O\n" currencyCode (selectedCurrencyCode) totalPerCurrency)
             printf "-------------------\n" 
 
-            let sum (x: seq<string * decimal>) = x |> Seq.fold(fun (acc: decimal) (a, b) -> acc + b) 0.0M
+            let sumAllGroupedTransactions (x: seq<string * decimal>) = 
+                x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrency) -> transactionTotal + totalPerCurrency) 0.0M
             
-            let total = sum linqExample
+            let total = sumAllGroupedTransactions linqQuery
                 
-            printf"      %s %A" (getCurrency _message.InvoiceCurrency) total
+            printf"      %s %A" (selectedCurrencyCode) total
 
-            printfn "\nCCS Profit - %s %A" (getCurrency _message.InvoiceCurrency) (Math.Round((total / 100.0M * _message.ProfitMargin),2))
+            printfn "\nCCS Profit - %s %A" (selectedCurrencyCode) (Math.Round((total / 100.0M * _message.ProfitMargin),2))
 
-            doStuff linqExample
+            printInvoice linqQuery
 
         finally
             conn.Close()

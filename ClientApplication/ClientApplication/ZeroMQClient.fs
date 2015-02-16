@@ -21,9 +21,8 @@ module ZeroMQClient =
         // connect to the server
         "tcp://localhost:5555" |> connect client
 
-        for i in 1 .. 1 do
+        let sendMessageWaitForReply () = 
             // 'send' a request to the server
-            printf "%A" (m_userInpuTuple.GetType())
             let message = encode <| serializeJson<InvoiceMessage> message
             printfn "Sending Message......"
 
@@ -35,4 +34,4 @@ module ZeroMQClient =
             let messageAsString = client |> Socket.recv |> decode
             printfn "Reply: %A" messageAsString
 
-
+        sendMessageWaitForReply ()

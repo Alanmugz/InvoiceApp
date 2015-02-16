@@ -100,7 +100,7 @@ module UserInterface =
   btnGenerateInvoice.Name <- "btnGenerateInvoice";
   btnGenerateInvoice.Size <- new System.Drawing.Size(99, 23);
   btnGenerateInvoice.TabIndex <- 6;
-  btnGenerateInvoice.Text <- "Generate Report";
+  btnGenerateInvoice.Text <- "Generate Invoice";
   btnGenerateInvoice.UseVisualStyleBackColor <- true;
   // 
   // cboInvoiceCurrency
@@ -153,7 +153,7 @@ module UserInterface =
     | "JPY" -> 6
     | _ -> -1
 
-  let internal formData () = 
+  let private formData () = 
     client <| (dtpDateFrom.Value, 
                             dtpDateTo.Value, 
                             getCurrency <| cboInvoiceCurrency.SelectedItem.ToString(), 
