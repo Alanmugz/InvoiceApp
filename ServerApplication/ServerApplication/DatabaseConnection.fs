@@ -51,41 +51,37 @@ module QueryDatabase =
             (* rsc - resultSetCurrencyCode
                rst - resultSetTransaction *)
 
-            let linqQuery =
+            let getTotalInvoiceAmountPerCurrency =
                 query { for rst in resultSetTransaction do 
                         join rct in resultSetCurrencyCode on
                               (rst.SaleCurrencyId = rct.CurrencyId)
                         where (rst.MerchantId = _message.MerchantId)
                         where (rst.CreationTimeStamp >= _message.DateFrom)
                         where (rst.CreationTimeStamp <= _message.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.9))
-                        groupBy rct.CurrencyCode into group
+                        groupBy rct.CurrencyCode into getTotalInvoiceAmountPerCurrency
                         let sumByGroup =
-                            query { for value in group do
+                            query { for value in getTotalInvoiceAmountPerCurrency do
                                     let transaction, currrencyCode = value
                                     sumBy(decimal transaction.PaymentMarginValue)
                             }                                                               
-                        select (group.Key, Math.Round(sumByGroup / (Http.getRates group.Key <| selectedInvoicingCurrencyCode), 2))
+                        select (getTotalInvoiceAmountPerCurrency.Key, Math.Round(sumByGroup / (Http.getRates getTotalInvoiceAmountPerCurrency.Key <| selectedInvoicingCurrencyCode), 2))
                 }
                  
             Console.Clear()
 
-            linqQuery |> Seq.iter (fun (currencyCode, totalPerCurrency) -> printf "%s - %s %O\n" currencyCode (selectedInvoicingCurrencyCode) totalPerCurrency)
+            getTotalInvoiceAmountPerCurrency |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterEchange) -> printf "%s - %s %O\n" currencyCode selectedInvoicingCurrencyCode totalPerCurrencyAfterEchange)
             printf "-------------------\n" 
 
-            let sumAllGroupedTransactions (x: seq<string * decimal>) = 
+            let finalInvoiceAmount (x: seq<string * decimal>) = 
                 x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrency) -> transactionTotal + totalPerCurrency) 0.0M
             
-            let total = sumAllGroupedTransactions linqQuery
+            let total = finalInvoiceAmount getTotalInvoiceAmountPerCurrency
                 
-            printf"     %s %A" (selectedInvoicingCurrencyCode) total
+            printf"     %s %A" selectedInvoicingCurrencyCode total
 
-            printfn "\nCCS Profit - %s %A" (selectedInvoicingCurrencyCode) (Math.Round((total / 100.0M * _message.ProfitMargin),2))
+            printfn "\nCCS Profit - %s %A" selectedInvoicingCurrencyCode (Math.Round((total / 100.0M * _message.ProfitMargin),2))
 
-            printInvoice linqQuery _message.ProfitMargin selectedInvoicingCurrencyCode
-
-            let x = Http.getRates "EUR" selectedInvoicingCurrencyCode
-
-            printfn "%A" x
+            printInvoice getTotalInvoiceAmountPerCurrency _message.ProfitMargin selectedInvoicingCurrencyCode
 
         finally
             conn.Close()

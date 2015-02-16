@@ -28,7 +28,9 @@ module Excel =
        worksheet.Cells.[7,3] <- Http.getRates "EUR" selectedInvoicingCurrencyCode
 
        let stuff x y = 
+           worksheet.Cells.[row,2] <- x
            worksheet.Cells.[row,3] <- x
+           worksheet.Cells.[row,4] <- Http.getRates selectedInvoicingCurrencyCode x
            worksheet.Cells.[row,5] <- y
            row <- row + 1
 
