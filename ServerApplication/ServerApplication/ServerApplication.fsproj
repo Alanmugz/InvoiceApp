@@ -72,10 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities.fs" />
-    <Compile Include="HttpExchangeRate.fs" />
-    <Compile Include="WriteToFile.fs" />
-    <Compile Include="DatabaseConnection.fs" />
-    <Compile Include="ZeroMQServer.fs" />
+    <Compile Include="HttpGetExchangeRate.fs" />
+    <Compile Include="WriteToExcel.fs" />
+    <Compile Include="Calculations.fs" />
+    <Compile Include="ZeroMQ.fs" />
     <Compile Include="Main.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />

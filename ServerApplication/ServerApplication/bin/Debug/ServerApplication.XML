@@ -5,6 +5,72 @@
 <member name="">
 
 </member>
+<member name="T:InvoiceApp.Console">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Convert">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Database">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Entity">
+
+</member>
+<member name="">
+
+</member>
 <member name="">
 
 </member>
@@ -32,28 +98,34 @@
 <member name="">
 
 </member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.MessageType">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
 <member name="T:InvoiceApp.QueryDatabase">
 
 </member>
 <member name="">
 
 </member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="T:InvoiceApp.Utilities.Database">
+<member name="T:InvoiceApp.ZeroMQ">
 
 </member>
 <member name="">
@@ -74,73 +146,7 @@
 <member name="">
 
 </member>
-<member name="T:InvoiceApp.Utilities.ZeroMQ">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="T:InvoiceApp.Utilities.RelationTable">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
-<member name="T:InvoiceApp.Utilities.MessageTypes">
-
-</member>
-<member name="T:InvoiceApp.Utilities">
-
-</member>
-<member name="">
-
-</member>
-<member name="T:InvoiceApp.ZeroMQServer">
+<member name="T:InvoiceApp.ZeroMQHelper">
 
 </member>
 </members>

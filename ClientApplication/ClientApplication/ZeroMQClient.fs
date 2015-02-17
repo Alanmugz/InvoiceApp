@@ -9,8 +9,8 @@ open Utilities
 
 module ZeroMQClient =
 
-    let client m_userInpuTuple =
-        let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = m_userInpuTuple
+    let client m_userInputTuple =
+        let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = m_userInputTuple
         let message = {DateFrom = dateFrom; DateTo = dateTo; InvoiceCurrency = invoiceCurrency; MerchantId = merchantId; ProfitMargin = profitMargin}
 
         // create a ZMQ context

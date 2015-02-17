@@ -6,4 +6,4 @@ open System
 module Main =
    
   [<EntryPoint>]
-  ZeroMQServer.server()
+  ZeroMQ.startServer ()
