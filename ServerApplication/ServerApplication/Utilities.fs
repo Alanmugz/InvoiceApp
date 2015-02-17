@@ -60,9 +60,7 @@ module Utilities =
                                              FROM \"SaleCurrrency\""
 
 
-
-
-    let getCurrencyCode currency = 
+    let getCurrencyCodeStr currency = 
         match currency with 
         | 1 -> "USD"
         | 2 -> "EUR"
@@ -71,3 +69,13 @@ module Utilities =
         | 5 -> "NZD"
         | 6 -> "JPY"
         | _ -> ""
+
+    let getCurrencyCodeInt currency = 
+        match currency with 
+        | 1 -> 840
+        | 2 -> 978
+        | 3 -> 124
+        | 4 -> 826
+        | 5 -> 554
+        | 6 -> 392
+        | _ -> 0

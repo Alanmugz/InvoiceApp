@@ -37,7 +37,7 @@ module QueryDatabase =
             currencyCodeList.Add(currencyCode)
         currencyCodeList
         
-    let getAllTransactions (_message : Utilities.MessageTypes.InvoiceMessage) () =
+    let getAllTransactions (message : Utilities.MessageTypes.InvoiceMessage) () =
         
         let conn = Utilities.Database.openConnection
         conn.Open()
@@ -46,7 +46,7 @@ module QueryDatabase =
             let resultSetCurrencyCode = getAllCurrenyCodesResultsSet <| conn <| Utilities.Database.getAllCurrenyCodesQueryString
             let resultSetTransaction = getAllTransactionResultSet <| conn <| Utilities.Database.getAllTransactionQueryString
 
-            let selectedInvoicingCurrencyCode = Utilities.getCurrencyCode _message.InvoiceCurrency
+            let selectedInvoicingCurrencyCode = Utilities.getCurrencyCodeStr message.InvoiceCurrency
 
             (* rsc - resultSetCurrencyCode
                rst - resultSetTransaction *)
@@ -55,33 +55,35 @@ module QueryDatabase =
                 query { for rst in resultSetTransaction do 
                         join rct in resultSetCurrencyCode on
                               (rst.SaleCurrencyId = rct.CurrencyId)
-                        where (rst.MerchantId = _message.MerchantId)
-                        where (rst.CreationTimeStamp >= _message.DateFrom)
-                        where (rst.CreationTimeStamp <= _message.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.9))
+                        where (rst.MessageTypeId = 9)
+                        where (rst.MerchantId = message.MerchantId)
+                        where (rst.CreationTimeStamp >= message.DateFrom)
+                        where (rst.CreationTimeStamp <= message.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.99))
                         groupBy rct.CurrencyCode into getTotalInvoiceAmountPerCurrency
                         let sumByGroup =
                             query { for value in getTotalInvoiceAmountPerCurrency do
                                     let transaction, currrencyCode = value
+                                    where (transaction.SaleCurrencyId <> Utilities.getCurrencyCodeInt message.InvoiceCurrency)
                                     sumBy(decimal transaction.PaymentMarginValue)
                             }                                                               
-                        select (getTotalInvoiceAmountPerCurrency.Key, Math.Round(sumByGroup / (Http.getRates getTotalInvoiceAmountPerCurrency.Key <| selectedInvoicingCurrencyCode), 2))
+                        select (getTotalInvoiceAmountPerCurrency.Key, Math.Round(sumByGroup / (Http.getRates getTotalInvoiceAmountPerCurrency.Key <| selectedInvoicingCurrencyCode), 2), sumByGroup)
                 }
                  
             Console.Clear()
 
-            getTotalInvoiceAmountPerCurrency |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterEchange) -> printf "%s - %s %O\n" currencyCode selectedInvoicingCurrencyCode totalPerCurrencyAfterEchange)
+            getTotalInvoiceAmountPerCurrency |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) -> printf "%s - %s %O\n" currencyCode selectedInvoicingCurrencyCode totalPerCurrencyAfterEchange)
             printf "-------------------\n" 
 
-            let finalInvoiceAmount (x: seq<string * decimal>) = 
-                x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrency) -> transactionTotal + totalPerCurrency) 0.0M
+            let finalInvoiceAmount (x: seq<string * decimal * decimal>) = 
+                x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) -> transactionTotal + totalPerCurrencyAfterEchange) 0.0M
             
             let total = finalInvoiceAmount getTotalInvoiceAmountPerCurrency
                 
             printf"     %s %A" selectedInvoicingCurrencyCode total
 
-            printfn "\nCCS Profit - %s %A" selectedInvoicingCurrencyCode (Math.Round((total / 100.0M * _message.ProfitMargin),2))
+            printfn "\nCCS Profit - %s %A" selectedInvoicingCurrencyCode (Math.Round((total / 100.0M * message.ProfitMargin),2))
 
-            printInvoice getTotalInvoiceAmountPerCurrency _message.ProfitMargin selectedInvoicingCurrencyCode
+            printInvoice getTotalInvoiceAmountPerCurrency message
 
         finally
             conn.Close()

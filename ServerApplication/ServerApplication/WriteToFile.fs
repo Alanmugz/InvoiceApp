@@ -1,17 +1,18 @@
 ﻿
 
 namespace InvoiceApp
-
+open System
 open System.IO
+open Microsoft.FSharp.Core
 open Microsoft.Office
 open Microsoft.Office.Interop.Excel
 open Microsoft.Office.Interop
 
 module Excel = 
     
-    let mutable row = 16
+    let mutable row = 17
 
-    let printInvoice linqExample profitMargin selectedInvoicingCurrencyCode =
+    let printInvoice linqExample (message : Utilities.MessageTypes.InvoiceMessage) =
 
        let app = new ApplicationClass(Visible = true) 
 
@@ -20,23 +21,25 @@ module Excel =
        // Note that worksheets are indexed from one instead of zero
        let worksheet = (workbook.Worksheets.[1] :?> Worksheet)
 
-       //ExchangeRate
-       worksheet.Cells.[5,3] <- selectedInvoicingCurrencyCode
-       //ExchangeRate
-       worksheet.Cells.[6,3] <- profitMargin
-       //ProfitMargin
-       worksheet.Cells.[7,3] <- Http.getRates "EUR" selectedInvoicingCurrencyCode
+       //Invoice Currency
+       worksheet.Cells.[5,3] <- Utilities.getCurrencyCodeStr message.InvoiceCurrency
+       //Exchange Rate
+       worksheet.Cells.[6,3] <- message.ProfitMargin
+       //Profit Margin
+       worksheet.Cells.[7,3] <- Http.getRates "EUR" <| Utilities.getCurrencyCodeStr message.InvoiceCurrency
+       //Invoicing Time Peroid
+       worksheet.Cells.[8,3] <- String.Format("{0} - {1}", message.DateFrom, message.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.9))
 
-       let stuff x y = 
-           worksheet.Cells.[row,2] <- x
-           worksheet.Cells.[row,3] <- x
-           worksheet.Cells.[row,4] <- Http.getRates selectedInvoicingCurrencyCode x
-           worksheet.Cells.[row,5] <- y
+       let stuff currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange = 
+           worksheet.Cells.[row,2] <- currencyCode
+           worksheet.Cells.[row,3] <- totalPerCurrencyBeforeExchange
+           worksheet.Cells.[row,4] <- Http.getRates <| Utilities.getCurrencyCodeStr message.InvoiceCurrency <| currencyCode
+           worksheet.Cells.[row,5] <- totalPerCurrencyAfterEchange
            row <- row + 1
 
-       linqExample |> Seq.iter (fun (x, y) -> stuff x y)
+       linqExample |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) -> stuff currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange)
 
-       row <- 16
+       row <- 17
 
         (* Start Excel, Open a exiting file for input and create a new file for output
         let xlApp = new Excel.ApplicationClass()
