@@ -1,15 +1,47 @@
 ﻿
 namespace InvoiceApp
 
+
 open Npgsql
 open System
 open System.Collections.Generic
 open System.Linq
 
-module QueryDatabase =
-    
+module Console = 
+    let displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode profitMargin totalInvocieAmountInEuro consoleIsEnabled () =             
+        match consoleIsEnabled with 
+        | true -> 
+            Console.Clear()
+
+            getTotalInvoiceAmountPerCurrency 
+                |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) -> 
+                printf "%s - %10s %-10O\n" currencyCode selectedInvoicingCurrencyCode totalPerCurrencyAfterExchange)
+
+            printf "----------------------\n" 
+
+            let getTotalInvoiceAmount (x: seq<string * decimal * decimal>) = 
+                x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) ->
+                transactionTotal + totalPerCurrencyAfterEchange) 0.0M
+            
+            let invoicingCurrencyTotalBeforeExchange = getTotalInvoiceAmount getTotalInvoiceAmountPerCurrency
+
+            let invoicingCurrencyTotalAfterProfitMarginSplit = Math.percentage invoicingCurrencyTotalBeforeExchange profitMargin
+                
+            printf"%16s %O" selectedInvoicingCurrencyCode invoicingCurrencyTotalBeforeExchange
+
+            printfn "\nCCS Profit - %s %O - EUR(%O)" selectedInvoicingCurrencyCode 
+                                                    (invoicingCurrencyTotalAfterProfitMarginSplit) 
+                                                    (Math.convertInvoicingCurrencyToEuro invoicingCurrencyTotalAfterProfitMarginSplit selectedInvoicingCurrencyCode)
+            
+        | false ->
+            Console.Clear()  
+
+            printfn "Please Wait ...... Generating Invoice"
+
+module QueryDatabase =    
+
     let private getAllTransactions (connection: NpgsqlConnection) (queryString: string) =
-        let transactionLists = new List<Entity.Transcation>()
+        let transactions = new List<Entity.Transcation>()
         let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
         
@@ -21,19 +53,19 @@ module QueryDatabase =
                                Entity.Transcation.PaymentValue = dataReader.GetDouble(4);
                                Entity.Transcation.PaymentMarginValue = dataReader.GetDouble(5);
                                Entity.Transcation.CreationTimeStamp = dataReader.GetDateTime(6)}
-            transactionLists.Add(transaction)
-        transactionLists
+            transactions.Add(transaction)
+        transactions
 
     let private getAllCurrenyCodes (connection: NpgsqlConnection) (queryString: string) =
-        let currencyCodeList = new List<Entity.Currency>()
+        let currencyCodes = new List<Entity.Currency>()
         let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
         
         while dataReader.Read() do
             let currencyCode = {Entity.Currency.Id = dataReader.GetInt32(0); 
                                 Entity.Currency.Code = dataReader.GetString(1);}
-            currencyCodeList.Add(currencyCode)
-        currencyCodeList
+            currencyCodes.Add(currencyCode)
+        currencyCodes
         
     let getAllTransaction (messageReceived : MessageType.InvoiceMessage) () =
         
@@ -46,7 +78,7 @@ module QueryDatabase =
 
             let selectedInvoicingCurrencyCode = Convert.invoiceCurrencyIdToCurrencyCode messageReceived.InvoiceCurrency
 
-            let getTotalInvoiceAmountPerCurrencies =
+            let getTotalInvoiceAmountPerCurrency =
                 query { for transaction in transactions do 
                         join currency in currencyCodes on
                               (transaction.SaleCurrencyId = currency.Id)
@@ -55,20 +87,22 @@ module QueryDatabase =
                         where (transaction.CreationTimeStamp >= messageReceived.DateFrom)
                         where (transaction.CreationTimeStamp <= messageReceived.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.99))
                         groupBy currency.Code into getTotalInvoiceAmountPerCurrency
-                        let sumByGroup =
+                        let sumBySaleCurrencyId =
                             query { for value in getTotalInvoiceAmountPerCurrency do
                                     let transaction, currrencyCode = value
                                     where (transaction.SaleCurrencyId <> Convert.invoiceCurrencyIdToCurrencyNum messageReceived.InvoiceCurrency)
                                     sumBy(decimal transaction.PaymentMarginValue)
                             }                                                               
                         select (getTotalInvoiceAmountPerCurrency.Key, 
-                                Math.Round(sumByGroup / (Http.getExchangeRates getTotalInvoiceAmountPerCurrency.Key <| selectedInvoicingCurrencyCode), 2),
-                                sumByGroup)
+                                Math.Round(sumBySaleCurrencyId / (Http.getExchangeRates getTotalInvoiceAmountPerCurrency.Key <| selectedInvoicingCurrencyCode), 2),
+                                sumBySaleCurrencyId)
                 }
-            
-            Console.displayData getTotalInvoiceAmountPerCurrencies selectedInvoicingCurrencyCode messageReceived.ProfitMargin false ()
 
-            Excel.generateInvoice getTotalInvoiceAmountPerCurrencies messageReceived
+            let totalInvocieAmountInEuro = Http.getExchangeRates selectedInvoicingCurrencyCode "EUR"
+            
+            Console.displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode messageReceived.ProfitMargin totalInvocieAmountInEuro true ()
+
+            Excel.generateInvoice getTotalInvoiceAmountPerCurrency messageReceived
 
         finally
             conn.Close()

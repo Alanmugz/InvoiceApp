@@ -1,10 +1,13 @@
 ﻿
 namespace InvoiceApp
  
+open HttpClient
+open FSharp.Data
 open System
 open System.IO
 open System.Runtime.Serialization.Json
 open System.Text
+open System.Windows.Forms 
 
     module MessageType = 
         type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: decimal}
@@ -77,26 +80,10 @@ open System.Text
             | 6 -> 392
             | _ -> 0
 
-    module Console = 
-        let displayData getTotalInvoiceAmountPerCurrencies selectedInvoicingCurrencyCode profitMargin consoleIsEnabled () =             
-            match consoleIsEnabled with 
-            | true -> 
-                      Console.Clear()
+    module Math = 
+        let percentage  total profitMargin =
+            Math.Round((total / 100.0M * profitMargin),2)
 
-                      getTotalInvoiceAmountPerCurrencies 
-                      |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) -> 
-                      printf "%s - %s %O\n" currencyCode selectedInvoicingCurrencyCode totalPerCurrencyAfterEchange)
-
-                      printf "-------------------\n" 
-
-                      let finalInvoiceAmount (x: seq<string * decimal * decimal>) = 
-                            x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) -> transactionTotal + totalPerCurrencyAfterEchange) 0.0M
-            
-                      let total = finalInvoiceAmount getTotalInvoiceAmountPerCurrencies
-                
-                      printf"     %s %A" selectedInvoicingCurrencyCode total
-
-                      printfn "\nCCS Profit - %s %A" selectedInvoicingCurrencyCode (Math.Round((total / 100.0M * profitMargin),2))
-            
-            | false -> 
-                     printfn "Please Wait......"
+        let convertInvoicingCurrencyToEuro total invoicingCurrencyCode = 
+            let exchangRateToEuro = Http.getExchangeRates "EUR" invoicingCurrencyCode 
+            Math.Round(total * exchangRateToEuro,2)

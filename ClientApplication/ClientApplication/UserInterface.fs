@@ -4,7 +4,6 @@ namespace InvoiceApp
 open System
 open System.Drawing
 open System.Windows.Forms
-open ZeroMQClient
 
 module UserInterface = 
 
@@ -20,6 +19,7 @@ module UserInterface =
   let lblInvoiceCurrency = new Label()
   let lblMerchant = new Label()
   let lblProfitMargin = new Label()
+  let lblPleaseWait = new Label()
   let txtProfitMargin = new TextBox()
   let btnGenerateInvoice = new Button()
   let cboInvoiceCurrency = new ComboBox(DataSource = InvoiceCurrencies)
@@ -118,6 +118,17 @@ module UserInterface =
   cboMerchant.Name <- "cboMerchant";
   cboMerchant.Size <- new System.Drawing.Size(116, 21);
   cboMerchant.TabIndex <- 4;
+  //
+  //lblPleaseWait
+  //
+  lblPleaseWait.AutoSize <- true;
+  lblPleaseWait.Location <- new System.Drawing.Point(12, 150);
+  lblPleaseWait.Name <- "label6";
+  lblPleaseWait.Size <- new System.Drawing.Size(64, 13);
+  lblPleaseWait.TabIndex <- 0;
+  lblPleaseWait.Text <- "Please Wait";
+  lblPleaseWait.Visible <- true;
+  lblPleaseWait.ForeColor <- SystemColors.Control;
   // 
   // Form
   // 
@@ -129,6 +140,7 @@ module UserInterface =
   frm.Controls.Add(lblMerchant)
   frm.Controls.Add(txtProfitMargin)
   frm.Controls.Add(lblProfitMargin)
+  frm.Controls.Add(lblPleaseWait)
   frm.Controls.Add(btnGenerateInvoice)
   frm.Controls.Add(cboInvoiceCurrency)
   frm.Controls.Add(cboMerchant)
@@ -151,10 +163,10 @@ module UserInterface =
     | "GBP" -> 4
     | "NZD" -> 5
     | "JPY" -> 6
-    | _ -> -1
-
+    | _ -> -1   
+  
   let private formData () = 
-    client <| (dtpDateFrom.Value, 
+    ZeroMQClient.client <| (dtpDateFrom.Value, 
                             dtpDateTo.Value, 
                             getCurrency <| cboInvoiceCurrency.SelectedItem.ToString(), 
                             getMerchant <| cboMerchant.SelectedItem.ToString(), 
@@ -163,8 +175,3 @@ module UserInterface =
   let evtMessages = 
     btnGenerateInvoice.Click
       |> Event.map (fun _ -> formData ())
-      
-
-
-
-
