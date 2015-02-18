@@ -27,7 +27,7 @@ module ZeroMQ =
             QueryDatabase.getAllTransaction messageReceived ()
 
             //Reply 
-            "Recieved"B |> Socket.send server
+            "Invoice Generated Succesfully"B |> Socket.send server
         listenForMessage ()
 
         listenForMessage ()

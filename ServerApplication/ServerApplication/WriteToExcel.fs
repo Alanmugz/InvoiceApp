@@ -56,7 +56,7 @@ module Excel =
 
        row <- 17
 
-       let fileName = String.Format(@"C:\Users\amulligan\Desktop\CCS_Project\Invoice File\{0}",invoiceNumber)
+       let fileName = String.Format(@"C:\Users\amulligan\Desktop\Invoice File\{0}",invoiceNumber)
 
        workbook.SaveAs(fileName)
 
