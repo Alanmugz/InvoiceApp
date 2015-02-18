@@ -7,13 +7,14 @@ open System
 open System.Collections.Generic
 open System.Linq
 
-module Console = 
+module Calculate = 
     let displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode profitMargin totalInvocieAmountInEuro consoleIsEnabled () =             
         match consoleIsEnabled with 
         | true -> 
             Console.Clear()
 
             getTotalInvoiceAmountPerCurrency 
+                |> Seq.filter (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) -> currencyCode <> selectedInvoicingCurrencyCode)
                 |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) -> 
                 printf "%s - %10s %-10O\n" currencyCode selectedInvoicingCurrencyCode totalPerCurrencyAfterExchange)
 
@@ -100,9 +101,19 @@ module QueryDatabase =
 
             let totalInvocieAmountInEuro = Http.getExchangeRates selectedInvoicingCurrencyCode "EUR"
             
-            Console.displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode messageReceived.ProfitMargin totalInvocieAmountInEuro true ()
+            Calculate.displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode messageReceived.ProfitMargin totalInvocieAmountInEuro true ()
 
-            Excel.generateInvoice getTotalInvoiceAmountPerCurrency messageReceived
+            let getTotalInvoiceAmount (x: seq<string * decimal * decimal>) = 
+                x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) ->
+                transactionTotal + totalPerCurrencyAfterEchange) 0.0M
+            
+            let invoicingCurrencyTotalBeforeExchange = getTotalInvoiceAmount getTotalInvoiceAmountPerCurrency
+
+            let invoicingCurrencyTotalAfterProfitMarginSplit = Math.percentage invoicingCurrencyTotalBeforeExchange (messageReceived.ProfitMargin)
+
+            let ccsProfitInEuro = (Math.convertInvoicingCurrencyToEuro invoicingCurrencyTotalAfterProfitMarginSplit selectedInvoicingCurrencyCode)
+
+            Excel.generateInvoice getTotalInvoiceAmountPerCurrency messageReceived invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit ccsProfitInEuro selectedInvoicingCurrencyCode
 
         finally
             conn.Close()
