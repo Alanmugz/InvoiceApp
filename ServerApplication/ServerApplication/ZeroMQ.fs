@@ -7,7 +7,6 @@ open fszmq.Socket
 open System
 open System.Threading
 
-
 module ZeroMQ =
 
     let startServer () =

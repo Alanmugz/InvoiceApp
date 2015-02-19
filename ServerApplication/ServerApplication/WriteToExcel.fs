@@ -1,13 +1,13 @@
 ﻿
-
 namespace InvoiceApp
-open System
-open System.IO
-open System.Diagnostics
+
 open Microsoft.FSharp.Core
 open Microsoft.Office
 open Microsoft.Office.Interop.Excel
 open Microsoft.Office.Interop
+open System
+open System.Diagnostics
+open System.IO
 
 module Excel = 
     

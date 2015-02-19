@@ -1,7 +1,6 @@
 ﻿
 namespace InvoiceApp
 
-
 open Npgsql
 open System
 open System.Collections.Generic

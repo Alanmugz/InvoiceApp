@@ -1,8 +1,8 @@
 ﻿
 namespace InvoiceApp
  
-open HttpClient
 open FSharp.Data
+open HttpClient
 open System
 open System.IO
 open System.Runtime.Serialization.Json
