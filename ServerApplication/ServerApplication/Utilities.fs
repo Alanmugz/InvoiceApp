@@ -24,7 +24,7 @@ open System.Windows.Forms
 
         [<CLIMutable>]
         type Currency = {Id: int; 
-                         Code: string;}
+                            Code: string;}
     module Database = 
         let private connectionString = "Server = localhost; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
 
@@ -34,14 +34,14 @@ open System.Windows.Forms
                                             FROM \"Transaction\""
 
         let getAllCurrenyCodesQueryString = "SELECT * 
-                                             FROM \"Currrency\""
+                                                FROM \"Currrency\""
 
     module ZeroMQHelper = 
         let encode messageAsStr = 
-          Encoding.ASCII.GetBytes(messageAsStr.ToString())
+            Encoding.ASCII.GetBytes(messageAsStr.ToString())
 
         let decode messageAsByte = 
-          Encoding.ASCII.GetString(messageAsByte)
+            Encoding.ASCII.GetString(messageAsByte)
 
         let toString = System.Text.Encoding.ASCII.GetString
         let toBytes (string : string) = System.Text.Encoding.ASCII.GetBytes string

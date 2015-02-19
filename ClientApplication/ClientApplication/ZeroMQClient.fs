@@ -5,13 +5,12 @@ open fszmq
 open fszmq.Context
 open fszmq.Socket
 open System
-open Utilities
 
 module ZeroMQClient =
 
     let client m_userInputTuple =
         let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = m_userInputTuple
-        let message = {DateFrom = dateFrom; DateTo = dateTo; InvoiceCurrency = invoiceCurrency; MerchantId = merchantId; ProfitMargin = profitMargin}
+        let message = {MessageType.InvoiceMessage.DateFrom = dateFrom; MessageType.InvoiceMessage.DateTo = dateTo; MessageType.InvoiceMessage.InvoiceCurrency = invoiceCurrency; MessageType.InvoiceMessage.MerchantId = merchantId; MessageType.InvoiceMessage.ProfitMargin = profitMargin}
 
         // create a ZMQ context
         use context = new Context()
@@ -23,7 +22,7 @@ module ZeroMQClient =
 
         let sendMessageWaitForReply () = 
             // 'send' a request to the server
-            let message = encode <| serializeJson<InvoiceMessage> message
+            let message = ZeroMQHelper.encode <| ZeroMQHelper.serializeJson<MessageType.InvoiceMessage> message
             printfn "Sending Message......"
 
             //Sends message to server
@@ -31,7 +30,7 @@ module ZeroMQClient =
             printfn "Message sent!!"
 
             //Recieves message as byte array a decode to string
-            let messageAsString = client |> Socket.recv |> decode
+            let messageAsString = client |> Socket.recv |> ZeroMQHelper.decode
             printfn "Reply: %A" messageAsString
 
         sendMessageWaitForReply ()

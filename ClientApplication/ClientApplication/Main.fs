@@ -8,5 +8,5 @@ open UserInterface
 
 module Main =
    
-  [<EntryPoint>] 
-  Application.Run(frm)
+    [<EntryPoint>] 
+    Application.Run(frm)

@@ -4,6 +4,6 @@ namespace InvoiceApp
 open System
 
 module Main =
-   
-  [<EntryPoint>]
-  ZeroMQ.startServer ()
+       
+    [<EntryPoint>]
+    ZeroMQ.startServer ()
