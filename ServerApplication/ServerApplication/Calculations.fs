@@ -99,9 +99,10 @@ module QueryDatabase =
                                 sumBySaleCurrencyId)
                 }
 
-            let numberOfTransaction = Seq.length getTotalInvoiceAmountPerCurrency
+            let seqContainsCurrencyCcode currencyCode seq = 
+                Seq.exists (fun (currencyCode, _, _) -> currencyCode = currencyCode) seq
 
-            Excel.prepairInvoice <| Seq.length getTotalInvoiceAmountPerCurrency |> ignore
+            Excel.prepairInvoiceTemplate <| Seq.length getTotalInvoiceAmountPerCurrency <| seqContainsCurrencyCcode selectedInvoicingCurrencyCode getTotalInvoiceAmountPerCurrency |> ignore
 
             let totalInvocieAmountInEuro = Http.getExchangeRates selectedInvoicingCurrencyCode "EUR"
             

@@ -64,9 +64,17 @@ module Excel =
 
        workbook.Close()
 
+    let prepairInvoiceTemplate (numberOfTransactionInSeq: int) boolean = 
+       let psi = new ProcessStartInfo(@"C:\Users\amulligan\Desktop\CCS_Project\ExcelPreperation.exe")
 
-    let prepairInvoice (numberOfTransactionInSeq: int) = 
-       let numberOfRows = numberOfTransactionInSeq - 1
-       let psi = new ProcessStartInfo(@"C:\Users\amulligan\Documents\Visual Studio 2012\Projects\ConsoleApplication7\ConsoleApplication7\bin\Debug\ConsoleApplication7.exe")
-       psi.Arguments <- numberOfRows.ToString();
+       let isContainedInSeq boolean = 
+            match boolean with 
+            | true -> let numberOfTransactionInSeq = numberOfTransactionInSeq - 1
+                      psi.Arguments <- numberOfTransactionInSeq.ToString()
+
+            | false -> psi.Arguments <- numberOfTransactionInSeq.ToString()
+
+       isContainedInSeq boolean
+       
+       psi.UseShellExecute <- false
        System.Diagnostics.Process.Start(psi)
