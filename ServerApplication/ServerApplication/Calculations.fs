@@ -99,6 +99,10 @@ module QueryDatabase =
                                 sumBySaleCurrencyId)
                 }
 
+            let numberOfTransaction = Seq.length getTotalInvoiceAmountPerCurrency
+
+            Excel.prepairInvoice <| Seq.length getTotalInvoiceAmountPerCurrency |> ignore
+
             let totalInvocieAmountInEuro = Http.getExchangeRates selectedInvoicingCurrencyCode "EUR"
             
             Calculate.displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode messageReceived.ProfitMargin totalInvocieAmountInEuro true ()

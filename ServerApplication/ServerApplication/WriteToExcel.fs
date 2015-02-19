@@ -3,12 +3,14 @@
 namespace InvoiceApp
 open System
 open System.IO
+open System.Diagnostics
 open Microsoft.FSharp.Core
 open Microsoft.Office
 open Microsoft.Office.Interop.Excel
 open Microsoft.Office.Interop
 
 module Excel = 
+    
     
     let mutable row = 17
 
@@ -22,7 +24,7 @@ module Excel =
        let app = new ApplicationClass(Visible = false) 
 
        // Create new file and get the first worksheet
-       let workbook = app.Workbooks.Open(@"C:\Users\amulligan\Desktop\CCS_Project\InvoiceTemplate.xlsx")
+       let workbook = app.Workbooks.Open(@"C:\Users\amulligan\Desktop\Invoice File\InvoiceTemplate.xlsx")
        // Note that worksheets are indexed from one instead of zero
        let worksheet = (workbook.Worksheets.[1] :?> Worksheet)
 
@@ -61,3 +63,10 @@ module Excel =
        workbook.SaveAs(fileName)
 
        workbook.Close()
+
+
+    let prepairInvoice (numberOfTransactionInSeq: int) = 
+       let numberOfRows = numberOfTransactionInSeq - 1
+       let psi = new ProcessStartInfo(@"C:\Users\amulligan\Documents\Visual Studio 2012\Projects\ConsoleApplication7\ConsoleApplication7\bin\Debug\ConsoleApplication7.exe")
+       psi.Arguments <- numberOfRows.ToString();
+       System.Diagnostics.Process.Start(psi)
