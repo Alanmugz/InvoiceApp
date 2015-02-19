@@ -99,10 +99,12 @@ module QueryDatabase =
                                 sumBySaleCurrencyId)
                 }
 
-            let seqContainsCurrencyCcode currencyCode seq = 
+            let seqContainsCurrencyCode currencyCode seq = 
                 Seq.exists (fun (currencyCode, _, _) -> currencyCode = currencyCode) seq
 
-            Excel.prepairInvoiceTemplate <| Seq.length getTotalInvoiceAmountPerCurrency <| seqContainsCurrencyCcode selectedInvoicingCurrencyCode getTotalInvoiceAmountPerCurrency |> ignore
+            let numberOfRowsRequiredInExcelTable = if seqContainsCurrencyCode selectedInvoicingCurrencyCode getTotalInvoiceAmountPerCurrency then Seq.length getTotalInvoiceAmountPerCurrency - 1 else Seq.length getTotalInvoiceAmountPerCurrency
+            
+            Excel.prepairRowInInvoiceTemplate numberOfRowsRequiredInExcelTable |> ignore
 
             let totalInvocieAmountInEuro = Http.getExchangeRates selectedInvoicingCurrencyCode "EUR"
             
@@ -118,7 +120,8 @@ module QueryDatabase =
 
             let ccsProfitInEuro = (Math.convertInvoicingCurrencyToEuro invoicingCurrencyTotalAfterProfitMarginSplit selectedInvoicingCurrencyCode)
 
-            Excel.generateInvoice getTotalInvoiceAmountPerCurrency messageReceived invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit ccsProfitInEuro selectedInvoicingCurrencyCode
+            Excel.generateInvoice getTotalInvoiceAmountPerCurrency messageReceived invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit 
+                                  ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable
 
         finally
             conn.Close()

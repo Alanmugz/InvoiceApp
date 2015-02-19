@@ -12,12 +12,13 @@ open Microsoft.Office.Interop
 module Excel = 
     
     
-    let mutable row = 17
+    let row = 17
 
     let generateInvoice totalInvoiceAmountPerCurrencies (messageReceived : MessageType.InvoiceMessage) 
                         invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit 
-                        ccsProfitInEuro selectedInvoicingCurrencyCode =
-       
+                        ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable =
+
+       let a = seq{ row .. (row + numberOfRowsRequiredInExcelTable) }
        let invoiceNumber = String.Format("{0}-{1}",messageReceived.MerchantId, Random().Next(1000, 1000000000))
        let invoicingCurrencyCode = Convert.invoiceCurrencyIdToCurrencyCode messageReceived.InvoiceCurrency
 
@@ -43,20 +44,19 @@ module Excel =
        //ccsProfitInEuro
        worksheet.Cells.[7,5] <- ccsProfitInEuro
        //invoicingCurrencyTotalBeforeExchange
-       worksheet.Cells.[55,5] <- invoicingCurrencyTotalBeforeExchange
+       worksheet.Cells.[18 + numberOfRowsRequiredInExcelTable,5] <- invoicingCurrencyTotalBeforeExchange
 
-       let populateExcelDocument currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange = 
-           worksheet.Cells.[row,2] <- currencyCode
-           worksheet.Cells.[row,3] <- totalPerCurrencyBeforeExchange
-           worksheet.Cells.[row,4] <- Http.getExchangeRates <| invoicingCurrencyCode <| currencyCode
-           worksheet.Cells.[row,5] <- totalPerCurrencyAfterEchange
-           row <- row + 1
+       let populateExcelDocument currencyCode totalPerCurrencyAfterExchange totalPerCurrencyBeforeExchange x = 
+           worksheet.Cells.[x,2] <- currencyCode
+           worksheet.Cells.[x,3] <- totalPerCurrencyBeforeExchange
+           worksheet.Cells.[x,4] <- Http.getExchangeRates <| invoicingCurrencyCode <| currencyCode
+           worksheet.Cells.[x,5] <- totalPerCurrencyAfterExchange
+           
 
        totalInvoiceAmountPerCurrencies 
        |> Seq.filter (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) -> currencyCode <> selectedInvoicingCurrencyCode)
-       |> Seq.iter (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) -> populateExcelDocument currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange)
+       |> Seq.iter2 (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) x -> populateExcelDocument currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange x) <| a
 
-       row <- 17
 
        let fileName = String.Format(@"C:\Users\amulligan\Desktop\Invoice File\{0}",invoiceNumber)
 
@@ -64,17 +64,8 @@ module Excel =
 
        workbook.Close()
 
-    let prepairInvoiceTemplate (numberOfTransactionInSeq: int) boolean = 
+    let prepairRowInInvoiceTemplate (numberOfTransactionInSeq: int) = 
        let psi = new ProcessStartInfo(@"C:\Users\amulligan\Desktop\CCS_Project\ExcelPreperation.exe")
-
-       let isContainedInSeq boolean = 
-            match boolean with 
-            | true -> let numberOfTransactionInSeq = numberOfTransactionInSeq - 1
-                      psi.Arguments <- numberOfTransactionInSeq.ToString()
-
-            | false -> psi.Arguments <- numberOfTransactionInSeq.ToString()
-
-       isContainedInSeq boolean
-       
+       psi.Arguments <- numberOfTransactionInSeq.ToString()
        psi.UseShellExecute <- false
        System.Diagnostics.Process.Start(psi)
