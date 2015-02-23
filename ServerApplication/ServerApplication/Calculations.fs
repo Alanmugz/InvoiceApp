@@ -39,6 +39,11 @@ module Calculate =
 
             printfn "Please Wait ...... Generating Invoice"
 
+module Sequence = 
+
+    let containsCurrencyCode selectedInvoicingCurrencyCode seq = 
+        Seq.exists (fun (currencyCode, _, _) -> currencyCode = selectedInvoicingCurrencyCode) seq
+
 module QueryDatabase =    
 
     let getAllTransactions (connection: NpgsqlConnection) (queryString: string) =
@@ -99,10 +104,7 @@ module QueryDatabase =
                                 sumBySaleCurrencyId)
                 }
 
-            let seqContainsCurrencyCode currencyCode seq = 
-                Seq.exists (fun (currencyCode, _, _) -> currencyCode = currencyCode) seq
-
-            let numberOfRowsRequiredInExcelTable = if seqContainsCurrencyCode selectedInvoicingCurrencyCode getTotalInvoiceAmountPerCurrency then Seq.length getTotalInvoiceAmountPerCurrency - 1 else Seq.length getTotalInvoiceAmountPerCurrency
+            let numberOfRowsRequiredInExcelTable = if Sequence.containsCurrencyCode selectedInvoicingCurrencyCode getTotalInvoiceAmountPerCurrency then Seq.length getTotalInvoiceAmountPerCurrency - 1 else Seq.length getTotalInvoiceAmountPerCurrency
             
             Excel.prepairRowInInvoiceTemplate numberOfRowsRequiredInExcelTable |> ignore
 

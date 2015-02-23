@@ -5,6 +5,8 @@ open System
 open NUnit.Framework
 open FsUnit
 open Foq
+
+type aType = string * string * string
  
 [<TestFixture>]
 type TestClass() =
@@ -164,17 +166,23 @@ type TestClass() =
             printfn "%s" ex.Message
 
     [<Test>]
-    member this.``Get Exchange Rates Test2``() =
+    member this.``Sequence Contains CurrencyCode Test``() =
         try
-            let result = QueryDatabase.stuff "Hello"  
+            let s = seq{ yield ("USD","",""); 
+                         yield ("EUR","","") }
 
-            Assert.AreEqual("Hello",result)                    
+            let result1 = Sequence.containsCurrencyCode "USD" s
+            let result2 = Sequence.containsCurrencyCode "ABC" s
 
-            testPassed "Get Exchange Rates Test"
+            Assert.AreEqual(true, result1)
+            Assert.AreEqual(false, result2)
+
+            testPassed "Sequence Contains CurrencyCode Test"
         with
-        | :? NUnit.Framework.AssertionException as ex -> 
-            testFailed "Get Exchange Rates Test"
+        | :? Npgsql.NpgsqlException as ex -> 
+            testFailed "Sequence Contains CurrencyCode Test"
             printfn "%s" ex.Message
+
  
     member this.RunAll bool () = 
         match bool with 
@@ -190,6 +198,7 @@ type TestClass() =
             this.``DeserializeJson Test``()
             this.``Get Exchange Rates Test``()
             this.``Open Database Connection Test``()
+            this.``Sequence Contains CurrencyCode Test``()
             printfn "%s" "Unit Tests Complete"
 
         | false ->
