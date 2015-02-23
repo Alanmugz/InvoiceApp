@@ -168,11 +168,11 @@ type TestClass() =
     [<Test>]
     member this.``Sequence Contains CurrencyCode Test``() =
         try
-            let s = seq{ yield ("USD","",""); 
+            let seq = seq{ yield ("USD","",""); 
                          yield ("EUR","","") }
 
-            let result1 = Sequence.containsCurrencyCode "USD" s
-            let result2 = Sequence.containsCurrencyCode "ABC" s
+            let result1 = Sequence.containsCurrencyCode "USD" seq
+            let result2 = Sequence.containsCurrencyCode "ABC" seq
 
             Assert.AreEqual(true, result1)
             Assert.AreEqual(false, result2)
@@ -181,6 +181,27 @@ type TestClass() =
         with
         | :? Npgsql.NpgsqlException as ex -> 
             testFailed "Sequence Contains CurrencyCode Test"
+            printfn "%s" ex.Message
+
+    [<Test>]
+    member this.``Get Total Invoice Amount Test``() =
+        try
+            let seq = seq{ yield ("USD",10.00M,0.0M); 
+                           yield ("USD",11.00M,0.0M);
+                           yield ("USD",1530.36M,0.0M);
+                           yield ("USD",750.36M,0.0M);
+                           yield ("USD",71.39M,0.0M);
+                           yield ("USD",82.12M,0.0M);}
+
+
+            let expected = Sequence.getTotalInvoiceAmount seq
+
+            Assert.AreEqual(2455.23M, expected)
+
+            testPassed "Get Total Invoice Amount Test"
+        with
+        | :? Npgsql.NpgsqlException as ex -> 
+            testFailed "`Get Total Invoice Amount Test"
             printfn "%s" ex.Message
 
  
@@ -199,6 +220,7 @@ type TestClass() =
             this.``Get Exchange Rates Test``()
             this.``Open Database Connection Test``()
             this.``Sequence Contains CurrencyCode Test``()
+            this.``Get Total Invoice Amount Test``()
             printfn "%s" "Unit Tests Complete"
 
         | false ->

@@ -44,6 +44,10 @@ module Sequence =
     let containsCurrencyCode selectedInvoicingCurrencyCode seq = 
         Seq.exists (fun (currencyCode, _, _) -> currencyCode = selectedInvoicingCurrencyCode) seq
 
+    let getTotalInvoiceAmount (x: seq<string * decimal * decimal>) = 
+        x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) ->
+        transactionTotal + totalPerCurrencyAfterEchange) 0.0M
+
 module QueryDatabase =    
 
     let getAllTransactions (connection: NpgsqlConnection) (queryString: string) =
@@ -111,12 +115,8 @@ module QueryDatabase =
             let totalInvocieAmountInEuro = Http.getExchangeRates selectedInvoicingCurrencyCode "EUR"
             
             Calculate.displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode messageReceived.ProfitMargin totalInvocieAmountInEuro true ()
-
-            let getTotalInvoiceAmount (x: seq<string * decimal * decimal>) = 
-                x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) ->
-                transactionTotal + totalPerCurrencyAfterEchange) 0.0M
             
-            let invoicingCurrencyTotalBeforeExchange = getTotalInvoiceAmount getTotalInvoiceAmountPerCurrency
+            let invoicingCurrencyTotalBeforeExchange = Sequence.getTotalInvoiceAmount getTotalInvoiceAmountPerCurrency
 
             let invoicingCurrencyTotalAfterProfitMarginSplit = Math.getProfitMarginPercentageAsDecimal invoicingCurrencyTotalBeforeExchange (messageReceived.ProfitMargin)
 

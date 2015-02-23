@@ -50,6 +50,9 @@
 <member name="">
 
 </member>
+<member name="">
+
+</member>
 <member name="T:InvoiceApp.Calculate">
 
 </member>
@@ -180,6 +183,9 @@
 
 </member>
 <member name="T:InvoiceApp.QueryDatabase">
+
+</member>
+<member name="">
 
 </member>
 <member name="">
