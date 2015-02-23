@@ -24,7 +24,7 @@ open System.Windows.Forms
 
         [<CLIMutable>]
         type Currency = {Id: int; 
-                            Code: string;}
+                         Code: string;}
     module Database = 
         let private connectionString = "Server = localhost; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
 
@@ -34,7 +34,7 @@ open System.Windows.Forms
                                             FROM \"Transaction\""
 
         let getAllCurrenyCodesQueryString = "SELECT * 
-                                                FROM \"Currrency\""
+                                             FROM \"Currrency\""
 
     module ZeroMQHelper = 
         let encode messageAsStr = 
@@ -81,7 +81,7 @@ open System.Windows.Forms
             | _ -> 0
 
     module Math = 
-        let percentage  total profitMargin =
+        let getProfitMarginPercentageAsDecimal  total profitMargin =
             Math.Round((total / 100.0M * profitMargin),2)
 
         let convertInvoicingCurrencyToEuro total invoicingCurrencyCode = 

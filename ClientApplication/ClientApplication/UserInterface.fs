@@ -165,7 +165,7 @@ module UserInterface =
         | "JPY" -> 6
         | _ -> -1   
   
-    let private formData () = 
+    let formData () = 
         ZeroMQClient.client <| (dtpDateFrom.Value, 
                                 dtpDateTo.Value, 
                                 getCurrency <| cboInvoiceCurrency.SelectedItem.ToString(), 

@@ -7,6 +7,7 @@ open System.Collections.Generic
 open System.Linq
 
 module Calculate = 
+
     let displayGeneratedData getTotalInvoiceAmountPerCurrency selectedInvoicingCurrencyCode profitMargin totalInvocieAmountInEuro consoleIsEnabled () =             
         match consoleIsEnabled with 
         | true -> 
@@ -25,7 +26,7 @@ module Calculate =
             
             let invoicingCurrencyTotalBeforeExchange = getTotalInvoiceAmount getTotalInvoiceAmountPerCurrency
 
-            let invoicingCurrencyTotalAfterProfitMarginSplit = Math.percentage invoicingCurrencyTotalBeforeExchange profitMargin
+            let invoicingCurrencyTotalAfterProfitMarginSplit = Math.getProfitMarginPercentageAsDecimal invoicingCurrencyTotalBeforeExchange profitMargin
                 
             printf"%16s %O" selectedInvoicingCurrencyCode invoicingCurrencyTotalBeforeExchange
 
@@ -40,7 +41,7 @@ module Calculate =
 
 module QueryDatabase =    
 
-    let private getAllTransactions (connection: NpgsqlConnection) (queryString: string) =
+    let getAllTransactions (connection: NpgsqlConnection) (queryString: string) =
         let transactions = new List<Entity.Transcation>()
         let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
@@ -56,7 +57,7 @@ module QueryDatabase =
             transactions.Add(transaction)
         transactions
 
-    let private getAllCurrenyCodes (connection: NpgsqlConnection) (queryString: string) =
+    let getAllCurrenyCodes (connection: NpgsqlConnection) (queryString: string) =
         let currencyCodes = new List<Entity.Currency>()
         let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
@@ -115,7 +116,7 @@ module QueryDatabase =
             
             let invoicingCurrencyTotalBeforeExchange = getTotalInvoiceAmount getTotalInvoiceAmountPerCurrency
 
-            let invoicingCurrencyTotalAfterProfitMarginSplit = Math.percentage invoicingCurrencyTotalBeforeExchange (messageReceived.ProfitMargin)
+            let invoicingCurrencyTotalAfterProfitMarginSplit = Math.getProfitMarginPercentageAsDecimal invoicingCurrencyTotalBeforeExchange (messageReceived.ProfitMargin)
 
             let ccsProfitInEuro = (Math.convertInvoicingCurrencyToEuro invoicingCurrencyTotalAfterProfitMarginSplit selectedInvoicingCurrencyCode)
 

@@ -36,6 +36,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Foq">
+      <HintPath>..\packages\Foq.1.6\lib\net45\Foq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FsCheck">
+      <HintPath>..\packages\FsCheck.1.0.4\lib\net45\FsCheck.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FSharp.Core">
       <HintPath>..\..\ClientApplication\packages\FSharp.Core.3.1.2.1\lib\net40\FSharp.Core.dll</HintPath>
     </Reference>
@@ -43,8 +51,16 @@
       <HintPath>..\packages\FSharp.Data.2.1.1\lib\net40\FSharp.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FsUnit.NUnit">
+      <HintPath>..\packages\FsUnit.1.3.0.1\lib\Net40\FsUnit.NUnit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="fszmq">
       <HintPath>..\packages\fszmq.4.0.6\lib\net45\fszmq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Fuchu">
+      <HintPath>..\packages\Fuchu.0.4.0.0\lib\Fuchu.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HttpClient">
@@ -59,6 +75,10 @@
     <Reference Include="mscorlib" />
     <Reference Include="Npgsql">
       <HintPath>..\packages\Npgsql.2.2.4.3\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -77,12 +97,14 @@
     <Compile Include="WriteToExcel.fs" />
     <Compile Include="Calculations.fs" />
     <Compile Include="ZeroMQ.fs" />
+    <Compile Include="Test.fs" />
     <Compile Include="Main.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="libzmq.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Foq.Usage.fsx" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

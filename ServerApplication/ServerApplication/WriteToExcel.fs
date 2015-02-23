@@ -12,13 +12,13 @@ open System.IO
 module Excel = 
     
     
-    let row = 17
+    let startRow = 17
 
     let generateInvoice totalInvoiceAmountPerCurrencies (messageReceived : MessageType.InvoiceMessage) 
                         invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit 
                         ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable =
 
-        let a = seq{ row .. (row + numberOfRowsRequiredInExcelTable) }
+        let rowSeq = seq{ startRow .. (startRow + numberOfRowsRequiredInExcelTable) }
         let invoiceNumber = String.Format("{0}-{1}",messageReceived.MerchantId, Random().Next(1000, 1000000000))
         let invoicingCurrencyCode = Convert.invoiceCurrencyIdToCurrencyCode messageReceived.InvoiceCurrency
 
@@ -55,7 +55,7 @@ module Excel =
 
         totalInvoiceAmountPerCurrencies 
         |> Seq.filter (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) -> currencyCode <> selectedInvoicingCurrencyCode)
-        |> Seq.iter2 (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) x -> populateExcelDocument currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange x) <| a
+        |> Seq.iter2 (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) x -> populateExcelDocument currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange x) <| rowSeq
 
 
         let fileName = String.Format(@"C:\Users\amulligan\Desktop\Invoice File\{0}",invoiceNumber)

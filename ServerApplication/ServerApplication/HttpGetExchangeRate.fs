@@ -15,3 +15,4 @@ module Http =
         let page = (createRequest Get url |> getResponseBody)
         let parsedRates = Sample.Parse(page)
         parsedRates.Rate
+

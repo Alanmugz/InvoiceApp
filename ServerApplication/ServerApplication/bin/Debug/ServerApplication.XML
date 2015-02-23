@@ -5,6 +5,48 @@
 <member name="">
 
 </member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
 <member name="T:InvoiceApp.Calculate">
 
 </member>
@@ -89,6 +131,9 @@
 <member name="T:InvoiceApp.Http">
 
 </member>
+<member name="">
+
+</member>
 <member name="T:InvoiceApp.Main">
 
 </member>
@@ -120,6 +165,9 @@
 
 </member>
 <member name="T:InvoiceApp.MessageType">
+
+</member>
+<member name="">
 
 </member>
 <member name="">

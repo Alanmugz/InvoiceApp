@@ -25,3 +25,14 @@ C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\D
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FSharp.Data.xml
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Microsoft.Office.Interop.Excel.dll
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Microsoft.Office.Interop.Excel.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FsCheck.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\nunit.framework.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FsCheck.pdb
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FsCheck.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\nunit.framework.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\FsUnit.NUnit.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Fuchu.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Fuchu.pdb
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Fuchu.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Foq.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Foq.xml
