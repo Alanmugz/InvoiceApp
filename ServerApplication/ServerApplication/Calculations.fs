@@ -91,7 +91,7 @@ module QueryDatabase =
             let getTotalInvoiceAmountPerCurrency =
                 query { for transaction in transactions do 
                         join currency in currencyCodes on
-                              (transaction.SaleCurrencyId = currency.Id)
+                                (transaction.SaleCurrencyId = currency.Id)
                         where (transaction.MessageTypeId = 9)
                         where (transaction.MerchantId = messageReceived.MerchantId)
                         where (transaction.CreationTimeStamp >= messageReceived.DateFrom)

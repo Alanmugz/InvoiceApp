@@ -204,6 +204,50 @@ type TestClass() =
             testFailed "`Get Total Invoice Amount Test"
             printfn "%s" ex.Message
 
+    [<Test>]
+    member this.``Get All Transactions Test``() =
+        try
+            let conn = Database.openConnection  
+            try
+                conn.Open() 
+                
+                let allTranasactions = QueryDatabase.getAllTransactions conn Database.getAllTransactionQueryString
+
+                let result = allTranasactions.Count
+
+                Assert.GreaterOrEqual(result, 80000)
+            
+                finally
+                conn.Close()   
+
+            testPassed "Get All Transactions Test"
+        with
+        | :? Npgsql.NpgsqlException as ex -> 
+            testFailed "Get All Transactions Test"
+            printfn "%s" ex.Message
+
+    [<Test>]
+    member this.``Get All CurrenyCodes Test``() =
+        try
+            let conn = Database.openConnection  
+            try
+                conn.Open() 
+                
+                let allCurrecnyCodes = QueryDatabase.getAllCurrenyCodes conn Database.getAllCurrenyCodesQueryString
+
+                let result = allCurrecnyCodes.Count
+
+                Assert.GreaterOrEqual(result, 38)
+            
+                finally
+                conn.Close()   
+
+            testPassed "Get All CurrenyCodes Test"
+        with
+        | :? Npgsql.NpgsqlException as ex -> 
+            testFailed "Get All CurrenyCodes Test"
+            printfn "%s" ex.Message
+
  
     member this.RunAll bool () = 
         match bool with 
@@ -221,6 +265,8 @@ type TestClass() =
             this.``Open Database Connection Test``()
             this.``Sequence Contains CurrencyCode Test``()
             this.``Get Total Invoice Amount Test``()
+            this.``Get All Transactions Test``()
+            this.``Get All CurrenyCodes Test``()
             printfn "%s" "Unit Tests Complete"
 
         | false ->
