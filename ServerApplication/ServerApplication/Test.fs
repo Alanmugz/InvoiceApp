@@ -1,12 +1,10 @@
 ﻿
 namespace InvoiceApp
  
-open System
-open NUnit.Framework
 open FsUnit
-open Foq
+open NUnit.Framework
+open System
 
-type aType = string * string * string
  
 [<TestFixture>]
 type TestClass() =

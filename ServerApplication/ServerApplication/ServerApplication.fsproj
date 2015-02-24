@@ -92,9 +92,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpGetExchangeRate.fs" />
+    <Compile Include="Http.fs" />
     <Compile Include="Utilities.fs" />
-    <Compile Include="WriteToExcel.fs" />
+    <Compile Include="Excel.fs" />
     <Compile Include="Calculations.fs" />
     <Compile Include="ZeroMQ.fs" />
     <Compile Include="Test.fs" />
