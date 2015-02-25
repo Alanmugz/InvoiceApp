@@ -8,9 +8,15 @@ open System
 
 module ZeroMQClient =
 
-    let client m_userInputTuple =
-        let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = m_userInputTuple
-        let message = {MessageType.InvoiceMessage.DateFrom = dateFrom; MessageType.InvoiceMessage.DateTo = dateTo; MessageType.InvoiceMessage.InvoiceCurrency = invoiceCurrency; MessageType.InvoiceMessage.MerchantId = merchantId; MessageType.InvoiceMessage.ProfitMargin = profitMargin}
+    let client userInputTuple =
+        let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin, x = userInputTuple
+
+        let messageReceived = {MessageType.InvoiceMessage.DateFrom = dateFrom; 
+                               MessageType.InvoiceMessage.DateTo = dateTo; 
+                               MessageType.InvoiceMessage.InvoiceCurrency = invoiceCurrency; 
+                               MessageType.InvoiceMessage.MerchantId = merchantId; 
+                               MessageType.InvoiceMessage.ProfitMargin = profitMargin;
+                               MessageType.InvoiceMessage.InvoiceNumber = x }
 
         // create a ZMQ context
         use context = new Context()
@@ -22,15 +28,15 @@ module ZeroMQClient =
 
         let sendMessageWaitForReply () = 
             // 'send' a request to the server
-            let message = ZeroMQHelper.encode <| ZeroMQHelper.serializeJson<MessageType.InvoiceMessage> message
+            let messageToBeSent = ZeroMQHelper.encode <| ZeroMQHelper.serializeJson<MessageType.InvoiceMessage> messageReceived
             printfn "Sending Message......"
 
             //Sends message to server
-            message |> Socket.send client
+            messageToBeSent |> Socket.send client
             printfn "Message sent!!"
 
             //Recieves message as byte array a decode to string
-            let messageAsString = client |> Socket.recv |> ZeroMQHelper.decode
-            printfn "Reply: %A" messageAsString
+            let replyMessage = client |> Socket.recv |> ZeroMQHelper.decode
+            printfn "Reply: %A" replyMessage
 
         sendMessageWaitForReply ()

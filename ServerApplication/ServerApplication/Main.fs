@@ -6,7 +6,7 @@ open System
 module Main =
     
     let test = new TestClass()
-    test.RunAll true ()
+    test.RunAll false ()
 
     [<EntryPoint>]
     ZeroMQ.startServer ()

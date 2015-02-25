@@ -24,9 +24,8 @@ module ZeroMQ =
             let messageReceived = server |> recv |> ZeroMQHelper.decode |> ZeroMQHelper.deserializeJson<MessageType.InvoiceMessage>
 
             QueryDatabase.getAllTransaction messageReceived ()
-
-            //Reply 
+ 
             "Invoice Generated Succesfully"B |> Socket.send server
         listenForMessage ()
-
         listenForMessage ()
+

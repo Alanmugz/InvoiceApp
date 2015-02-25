@@ -36,3 +36,9 @@ C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\D
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Fuchu.xml
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Foq.dll
 C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Foq.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Newtonsoft.Json.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Newtonsoft.Json.FSharp.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\NodaTime.dll
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Newtonsoft.Json.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\Newtonsoft.Json.FSharp.xml
+C:\Users\amulligan\Desktop\CCS_Project\ServerApplication\ServerApplication\bin\Debug\NodaTime.xml

@@ -191,7 +191,6 @@ type TestClass() =
                            yield ("USD",71.39M,0.0M);
                            yield ("USD",82.12M,0.0M);}
 
-
             let expected = Sequence.getTotalInvoiceAmount seq
 
             Assert.AreEqual(2455.23M, expected)

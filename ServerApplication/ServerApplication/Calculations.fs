@@ -33,7 +33,7 @@ module Calculate =
             printfn "\nCCS Profit - %s %O - EUR(%O)" selectedInvoicingCurrencyCode 
                                                     (invoicingCurrencyTotalAfterProfitMarginSplit) 
                                                     (Math.convertInvoicingCurrencyToEuro invoicingCurrencyTotalAfterProfitMarginSplit selectedInvoicingCurrencyCode)
-            
+     
         | false ->
             Console.Clear()  
 
@@ -76,11 +76,22 @@ module QueryDatabase =
                                 Entity.Currency.Code = dataReader.GetString(1);}
             currencyCodes.Add(currencyCode)
         currencyCodes
+
+    let insertInvoiceAsJsonIntoInvoiceTable (connection: NpgsqlConnection) (queryString: string) =
+        let strippedQueryString = String.removeWhiteSpaceCarrageReturnAndNewLine queryString
+        let command = new NpgsqlCommand(strippedQueryString, connection)
+        
+        let isInsertedIntoInvoiceTable x =
+            match x with 
+            | 1 -> printfn "Inserted Invoice Successfully!!"
+            | _ -> printfn "!!Error inserting invoice"
+
+        isInsertedIntoInvoiceTable (command.ExecuteNonQuery())
         
     let getAllTransaction (messageReceived : MessageType.InvoiceMessage) () =
         
         let conn = Database.openConnection
-        conn.Open()
+        conn.Open() 
 
         try
             let currencyCodes = getAllCurrenyCodes <| conn <| Database.getAllCurrenyCodesQueryString
@@ -122,8 +133,17 @@ module QueryDatabase =
 
             let ccsProfitInEuro = (Math.convertInvoicingCurrencyToEuro invoicingCurrencyTotalAfterProfitMarginSplit selectedInvoicingCurrencyCode)
 
+            let invoiceNumber = InvoiceNo.generate messageReceived.MerchantId
+
             Excel.generateInvoice getTotalInvoiceAmountPerCurrency messageReceived invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit 
-                                  ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable
+                                  ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable invoiceNumber
+
+            let generatedJson = Json.generateJsonForInvoiceInDatabase getTotalInvoiceAmountPerCurrency messageReceived invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit 
+                                                                      ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable invoiceNumber
+
+            let insertIntoInvoiceString = Database.insertIntoInvoiceString invoiceNumber generatedJson
+
+            insertInvoiceAsJsonIntoInvoiceTable <| conn <| insertIntoInvoiceString
 
         finally
             conn.Close()

@@ -80,6 +80,9 @@
 <member name="">
 
 </member>
+<member name="">
+
+</member>
 <member name="T:InvoiceApp.Database">
 
 </member>
@@ -143,6 +146,33 @@
 <member name="">
 
 </member>
+<member name="T:InvoiceApp.InvoiceNo">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Json">
+
+</member>
+<member name="">
+
+</member>
 <member name="T:InvoiceApp.Main">
 
 </member>
@@ -185,6 +215,9 @@
 <member name="">
 
 </member>
+<member name="">
+
+</member>
 <member name="T:InvoiceApp.QueryDatabase">
 
 </member>
@@ -195,6 +228,12 @@
 
 </member>
 <member name="T:InvoiceApp.Sequence">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.String">
 
 </member>
 <member name="">

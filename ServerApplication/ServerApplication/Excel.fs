@@ -11,19 +11,16 @@ open System.IO
 
 module Excel = 
     
-    
     let startRow = 17
 
     let generateInvoice totalInvoiceAmountPerCurrencies (messageReceived : MessageType.InvoiceMessage) 
                         invoicingCurrencyTotalBeforeExchange invoicingCurrencyTotalAfterProfitMarginSplit 
-                        ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable =
+                        ccsProfitInEuro selectedInvoicingCurrencyCode numberOfRowsRequiredInExcelTable (invoiceNumber: string) =
 
         let rowSeq = seq{ startRow .. (startRow + numberOfRowsRequiredInExcelTable) }
-        let invoiceNumber = String.Format("{0}-{1}",messageReceived.MerchantId, Random().Next(1000, 1000000000))
         let invoicingCurrencyCode = Convert.invoiceCurrencyIdToCurrencyCode messageReceived.InvoiceCurrency
 
         let app = new ApplicationClass(Visible = false) 
-
         // Create new file and get the first worksheet
         let workbook = app.Workbooks.Open(@"C:\Users\amulligan\Desktop\Invoice File\InvoiceTemplate.xlsx")
         // Note that worksheets are indexed from one instead of zero
@@ -55,7 +52,7 @@ module Excel =
 
         totalInvoiceAmountPerCurrencies 
         |> Seq.filter (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) -> currencyCode <> selectedInvoicingCurrencyCode)
-        |> Seq.iter2 (fun (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) x -> populateExcelDocument currencyCode totalPerCurrencyAfterEchange totalPerCurrencyBeforeExchange x) <| rowSeq
+        |> Seq.iter2 (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) x -> populateExcelDocument currencyCode totalPerCurrencyAfterExchange totalPerCurrencyBeforeExchange x) <| rowSeq
 
 
         let fileName = String.Format(@"C:\Users\amulligan\Desktop\Invoice File\{0}",invoiceNumber)

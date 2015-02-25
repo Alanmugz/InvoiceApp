@@ -11,7 +11,7 @@ module UserInterface =
     let Merchants = [|"ANZ";"KLM";"Cebu";"Jet";"Eithad"|]
 
     // Create the form and a labels, datetimepickers and button
-    let frm = new Form(Text = "Invoicing Application!", Height = 218, Width = 260)
+    let frm = new Form(Text = "Invoicing Application!", Height = 258, Width = 260)
     let lblDateFrom = new Label()
     let dtpDateFrom = new System.Windows.Forms.DateTimePicker()
     let lblDateTo = new Label()
@@ -19,8 +19,10 @@ module UserInterface =
     let lblInvoiceCurrency = new Label()
     let lblMerchant = new Label()
     let lblProfitMargin = new Label()
+    let lblInvoiceNumber = new Label()
     let lblPleaseWait = new Label()
     let txtProfitMargin = new TextBox()
+    let txtInvoiceNumber = new TextBox()
     let btnGenerateInvoice = new Button()
     let cboInvoiceCurrency = new ComboBox(DataSource = InvoiceCurrencies)
     let cboMerchant = new ComboBox(DataSource = Merchants)
@@ -40,7 +42,7 @@ module UserInterface =
     dtpDateFrom.Name <- "dtpDateFrom";
     dtpDateFrom.Size <- new System.Drawing.Size(117, 20);
     dtpDateFrom.TabIndex <- 1;
-    dtpDateFrom.Value <- new DateTime(2015,1,20);
+    dtpDateFrom.Value <- new DateTime(2015,1,1);
     // 
     // lblDateTo
     // 
@@ -57,7 +59,7 @@ module UserInterface =
     dtpDateTo.Name <- "dtpDateTo";
     dtpDateTo.Size <- new System.Drawing.Size(117, 20);
     dtpDateTo.TabIndex <- 2;
-    dtpDateTo.Value <- new DateTime(2015,1,21);
+    dtpDateTo.Value <- new DateTime(2015,1,2);
     // 
     // lblInvoiceCurrency
     // 
@@ -85,14 +87,31 @@ module UserInterface =
     txtProfitMargin.TabIndex <- 5;
     txtProfitMargin.Text <- "2.3";
     // 
+    // txtInvoiceNumber
+    // 
+    txtInvoiceNumber.Location <- new System.Drawing.Point(106, 181);
+    txtInvoiceNumber.Name <- "txtInvoiceNumber";
+    txtInvoiceNumber.Size <- new System.Drawing.Size(115, 20);
+    txtInvoiceNumber.TabIndex <- 5;
+    txtInvoiceNumber.Text <- "1-12345678";
+    // 
     // lblProfitMargin
     // 
     lblProfitMargin.AutoSize <- true;
     lblProfitMargin.Location <- new System.Drawing.Point(12, 121);
-    lblProfitMargin.Name <- "txtProfitMargin";
+    lblProfitMargin.Name <- "lblProfitMargin";
     lblProfitMargin.Size <- new System.Drawing.Size(66, 13);
     lblProfitMargin.TabIndex <- 0;
     lblProfitMargin.Text <- "Profit Margin";
+    // 
+    // lblInvoiceNumber
+    // 
+    lblInvoiceNumber.AutoSize <- true;
+    lblInvoiceNumber.Location <- new System.Drawing.Point(12, 184);
+    lblInvoiceNumber.Name <- "txtProfitMargin";
+    lblInvoiceNumber.Size <- new System.Drawing.Size(66, 13);
+    lblInvoiceNumber.TabIndex <- 0;
+    lblInvoiceNumber.Text <- "Invoice Number";
     // 
     // btnGenerateInvoice
     // 
@@ -139,7 +158,9 @@ module UserInterface =
     frm.Controls.Add(lblInvoiceCurrency)
     frm.Controls.Add(lblMerchant)
     frm.Controls.Add(txtProfitMargin)
+    frm.Controls.Add(txtInvoiceNumber)
     frm.Controls.Add(lblProfitMargin)
+    frm.Controls.Add(lblInvoiceNumber)
     frm.Controls.Add(lblPleaseWait)
     frm.Controls.Add(btnGenerateInvoice)
     frm.Controls.Add(cboInvoiceCurrency)
@@ -170,7 +191,8 @@ module UserInterface =
                                 dtpDateTo.Value, 
                                 getCurrency <| cboInvoiceCurrency.SelectedItem.ToString(), 
                                 getMerchant <| cboMerchant.SelectedItem.ToString(), 
-                                Convert.ToDecimal(txtProfitMargin.Text))
+                                Convert.ToDecimal(txtProfitMargin.Text),
+                                txtInvoiceNumber.Text)
 
     let evtMessages = 
         btnGenerateInvoice.Click

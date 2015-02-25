@@ -3,6 +3,7 @@ namespace InvoiceApp
  
 open FSharp.Data
 open HttpClient
+open Newtonsoft.Json.Linq
 open System
 open System.IO
 open System.Runtime.Serialization.Json
@@ -10,7 +11,11 @@ open System.Text
 open System.Windows.Forms 
 
     module MessageType = 
-        type InvoiceMessage = {DateFrom: DateTime; DateTo: DateTime; InvoiceCurrency: int32; MerchantId: int32; ProfitMargin: decimal}
+        type InvoiceMessage = {DateFrom: DateTime; 
+                               DateTo: DateTime; 
+                               InvoiceCurrency: int32; 
+                               MerchantId: int32; 
+                               ProfitMargin: decimal}
 
     module Entity = 
         [<CLIMutable>]
@@ -35,6 +40,9 @@ open System.Windows.Forms
 
         let getAllCurrenyCodesQueryString = "SELECT * 
                                              FROM \"Currrency\""
+
+        let insertIntoInvoiceString invoiceNumber json = 
+            String.Format("INSERT_INTO \"Invoice\" VALUES ('{0}', '{1}')", invoiceNumber, json)
 
     module ZeroMQHelper = 
         let encode messageAsStr = 
@@ -87,3 +95,12 @@ open System.Windows.Forms
         let convertInvoicingCurrencyToEuro total invoicingCurrencyCode = 
             let exchangRateToEuro = Http.getExchangeRates "EUR" invoicingCurrencyCode 
             Math.Round(total * exchangRateToEuro,2)
+
+    module String =
+        let removeWhiteSpaceCarrageReturnAndNewLine (string: string) = 
+            let str = string.Replace(" ", "").Replace("\r", "").Replace("\n", "").Replace("_", " ")
+            str
+
+    module InvoiceNo =
+        let generate merchantId = 
+            String.Format("{0}-{1}",merchantId, Random().Next(1000, 1000000000))
