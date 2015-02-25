@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>InvoiceApplication</name></assembly>
+<members>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Program.Main">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Program.Excel">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Program.Database">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Program.Json">
+
+</member>
+<member name="T:Program">
+
+</member>
+</members>
+</doc>
