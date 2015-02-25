@@ -12,8 +12,7 @@ open System.Text
               DateTo : DateTime
               InvoiceCurrency : int32
               MerchantId : int32
-              ProfitMargin : decimal 
-              InvoiceNumber : string}
+              ProfitMargin : decimal}
    
     module ZeroMQHelper = 
         let encode messageAsStr = 
