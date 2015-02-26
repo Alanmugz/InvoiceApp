@@ -1,7 +1,6 @@
 ﻿
 namespace InvoiceApp
  
-open FsUnit
 open NUnit.Framework
 open System
 

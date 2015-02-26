@@ -45,8 +45,8 @@ module Sequence =
         Seq.exists (fun (currencyCode, _, _) -> currencyCode = selectedInvoicingCurrencyCode) seq
 
     let getTotalInvoiceAmount (x: seq<string * decimal * decimal>) = 
-        x |> Seq.fold(fun (transactionTotal: decimal) (currencyCode, totalPerCurrencyAfterEchange, totalPerCurrencyBeforeExchange) ->
-        transactionTotal + totalPerCurrencyAfterEchange) 0.0M
+        x |> Seq.fold(fun (transactionTotal: decimal) (_, totalPerCurrencyAfterExchange, _) ->
+        transactionTotal + totalPerCurrencyAfterExchange) 0.0M
 
 module QueryDatabase =    
 
