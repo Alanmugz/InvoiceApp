@@ -165,7 +165,7 @@ module UserInterface =
         | "JPY" -> 6
         | _ -> -1   
   
-    let formData () = 
+    let processFormData () = 
         ZeroMQClient.client <| (dtpDateFrom.Value, 
                                 dtpDateTo.Value, 
                                 getCurrency <| cboInvoiceCurrency.SelectedItem.ToString(), 
@@ -174,4 +174,4 @@ module UserInterface =
 
     let evtMessages = 
         btnGenerateInvoice.Click
-            |> Event.map (fun _ -> formData ())
+            |> Event.map (fun _ -> processFormData ())

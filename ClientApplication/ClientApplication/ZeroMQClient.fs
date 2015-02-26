@@ -10,7 +10,12 @@ module ZeroMQClient =
 
     let client userInputTuple =
         let dateFrom, dateTo, invoiceCurrency, merchantId, profitMargin = userInputTuple
-        let messageReceived = {MessageType.InvoiceMessage.DateFrom = dateFrom; MessageType.InvoiceMessage.DateTo = dateTo; MessageType.InvoiceMessage.InvoiceCurrency = invoiceCurrency; MessageType.InvoiceMessage.MerchantId = merchantId; MessageType.InvoiceMessage.ProfitMargin = profitMargin}
+
+        let messageReceived = {MessageType.InvoiceMessage.DateFrom = dateFrom; 
+                               MessageType.InvoiceMessage.DateTo = dateTo; 
+                               MessageType.InvoiceMessage.InvoiceCurrency = invoiceCurrency; 
+                               MessageType.InvoiceMessage.MerchantId = merchantId; 
+                               MessageType.InvoiceMessage.ProfitMargin = profitMargin}
 
         // create a ZMQ context
         use context = new Context()
@@ -30,7 +35,7 @@ module ZeroMQClient =
             printfn "Message sent!!"
 
             //Recieves message as byte array a decode to string
-            let replyMessage = client |> Socket.recv |> ZeroMQHelper.decode
-            printfn "Reply: %A" replyMessage
+            let messageReply = client |> Socket.recv |> ZeroMQHelper.decode
+            printfn "Reply: %A" messageReply
 
         sendMessageWaitForReply ()

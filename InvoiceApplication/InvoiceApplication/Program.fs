@@ -43,18 +43,16 @@ module Database =
 
 module Excel = 
 
-    exception FileAllReadyExists of String
-
     let startRow = 17
 
     let generateInvoice invoiceJson =
 
         let parsedJson = Json.Sample.Parse(invoiceJson)
         let invoiceNumber = parsedJson.InvoiceNumber
-        let numberOfRowsRequired = Convert.ToInt32(parsedJson.Transaction.Length)
+        let numberOfTransactionRequired = Convert.ToInt32(parsedJson.Transaction.Length)
 
-        let seqOfTransaction = seq {0 .. (numberOfRowsRequired-1)}
-        let rowSeq = seq{ startRow .. (startRow + (numberOfRowsRequired)) }
+        let seqOfTransaction = seq {0 .. (numberOfTransactionRequired-1)}
+        let rowSeq = seq{ startRow .. (startRow + (numberOfTransactionRequired)) }
 
         let app = new ApplicationClass(Visible = false) 
         // Create new file and get the first worksheet
@@ -77,21 +75,21 @@ module Excel =
         //ccsProfitInEuro
         worksheet.Cells.[7,5] <- parsedJson.InvoicingAmountWithProfitMarginAppliedInEuro
         //invoicingCurrencyTotalBeforeExchange
-        worksheet.Cells.[18 + (numberOfRowsRequired),5] <- parsedJson.TransactionForPeroid
+        worksheet.Cells.[18 + (numberOfTransactionRequired),5] <- parsedJson.TransactionForPeroid
 
-        let populateExcelDocument currencyCode totalPerCurrencyBeforeExchange exchangeRate totalPerCurrencyAfterExchange  x = 
-            worksheet.Cells.[x,2] <- currencyCode
-            worksheet.Cells.[x,3] <- totalPerCurrencyBeforeExchange
-            worksheet.Cells.[x,4] <- exchangeRate
-            worksheet.Cells.[x,5] <- totalPerCurrencyAfterExchange
+        let populateExcelDocument currencyCode totalPerCurrencyBeforeExchange exchangeRate totalPerCurrencyAfterExchange row = 
+            worksheet.Cells.[row,2] <- currencyCode
+            worksheet.Cells.[row,3] <- totalPerCurrencyBeforeExchange
+            worksheet.Cells.[row,4] <- exchangeRate
+            worksheet.Cells.[row,5] <- totalPerCurrencyAfterExchange
            
         seqOfTransaction
         |> Seq.filter (fun n -> parsedJson.Transaction.[n].CurrencyCode <> parsedJson.InvoiceCurrency)
-        |> Seq.iter2(fun n x -> populateExcelDocument parsedJson.Transaction.[n].CurrencyCode 
-                                                      parsedJson.Transaction.[n].TotalPerCurrencyBeforeExchange 
-                                                      parsedJson.Transaction.[n].ExchangeRate 
-                                                      parsedJson.Transaction.[n].TotalPerCurrencyAfterExchange 
-                                                      x ) <| rowSeq
+        |> Seq.iter2(fun count row -> populateExcelDocument parsedJson.Transaction.[count].CurrencyCode 
+                                                            parsedJson.Transaction.[count].TotalPerCurrencyBeforeExchange 
+                                                            parsedJson.Transaction.[count].ExchangeRate 
+                                                            parsedJson.Transaction.[count].TotalPerCurrencyAfterExchange 
+                                                            row ) <| rowSeq
         try         
             let fileName = String.Format(@"C:\Users\amulligan\Desktop\Invoice File\{0}-Copy",invoiceNumber)
             workbook.SaveAs(fileName)
@@ -99,10 +97,10 @@ module Excel =
             workbook.Close()
     
     let prepairRowInInvoiceTemplate (numberOfTransactionInSeq: int) = 
-        let psi = new ProcessStartInfo(@"C:\Users\amulligan\Desktop\CCS_Project\ExcelPreperation.exe")
-        psi.Arguments <- numberOfTransactionInSeq.ToString()
-        psi.UseShellExecute <- false
-        System.Diagnostics.Process.Start(psi)
+        let processStartInfo = new ProcessStartInfo(@"C:\Users\amulligan\Desktop\CCS_Project\ExcelPreperation.exe")
+        processStartInfo.Arguments <- numberOfTransactionInSeq.ToString()
+        processStartInfo.UseShellExecute <- false
+        System.Diagnostics.Process.Start(processStartInfo)
 
 module Main =
 
@@ -110,7 +108,7 @@ module Main =
       [ let command = new NpgsqlCommand(queryString, connection)
         let dataReader = command.ExecuteReader()
         while dataReader.Read() do
-          yield dataReader.GetString(1) ]
+            yield dataReader.GetString(1) ]
 
     let conn = Database.openConnection
     conn.Open() 
@@ -124,8 +122,8 @@ module Main =
         let numberOfTransaction = (Convert.ToInt32(parsedJson.Transaction.Length))
 
         Excel.prepairRowInInvoiceTemplate numberOfTransaction |> ignore
+
         System.Threading.Thread.Sleep(2000)  
-        let seqOfTransaction = seq {0 .. (numberOfTransaction-1)}
 
         Excel.generateInvoice invoiceJson
 

@@ -7,6 +7,7 @@ open System.Runtime.Serialization.Json
 open System.Text
 
     module MessageType = 
+
         type InvoiceMessage = 
             { DateFrom : DateTime
               DateTo : DateTime
@@ -15,6 +16,7 @@ open System.Text
               ProfitMargin : decimal}
    
     module ZeroMQHelper = 
+
         let encode messageAsStr = 
             Encoding.ASCII.GetBytes(messageAsStr.ToString())
 
