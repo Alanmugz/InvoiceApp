@@ -43,7 +43,7 @@ module Json =
                 JProp("InvoicePeroid", !! String.Format("{0} - {1}", messageReceived.DateFrom, messageReceived.DateTo.AddHours(23.0).AddMinutes(59.0).AddSeconds(59.9)));
                 JProp("Transaction", 
                     JArr (Seq.map formatItemAsJson  totalInvoiceAmountPerCurrencies))
-                JProp("TransactionForPeroid", !! invoicingCurrencyTotalBeforeExchange);
+                JProp("TransactionForPeroid", !! Convert.ToDecimal(invoicingCurrencyTotalBeforeExchange : decimal));
                 JProp("InvoicingAmountWithProfitMarginApplied", !! invoicingCurrencyTotalAfterProfitMarginSplit);
                 JProp("InvoicingAmountWithProfitMarginAppliedInEuro", !! ccsProfitInEuro);
             ]
