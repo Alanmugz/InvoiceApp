@@ -4,7 +4,6 @@ namespace InvoiceApp
 
 open FSharp.Data
 open HttpClient
-open System
 
 module Http = 
 

@@ -119,7 +119,9 @@ module QueryDatabase =
                                 sumBySaleCurrencyId)
                 }
 
-            let numberOfRowsRequiredInExcelTable = if Sequence.containsCurrencyCode selectedInvoicingCurrencyCode getTotalInvoiceAmountPerCurrency then Seq.length getTotalInvoiceAmountPerCurrency - 1 else Seq.length getTotalInvoiceAmountPerCurrency
+            let numberOfRowsRequiredInExcelTable = if Sequence.containsCurrencyCode selectedInvoicingCurrencyCode getTotalInvoiceAmountPerCurrency then 
+                                                       Seq.length getTotalInvoiceAmountPerCurrency - 1 
+                                                   else Seq.length getTotalInvoiceAmountPerCurrency
             
             Excel.prepairRowInInvoiceTemplate numberOfRowsRequiredInExcelTable |> ignore
 

@@ -11,6 +11,7 @@ open System
 open System.Collections.Generic
 open System.Diagnostics
 open System.IO
+open System.Threading
 
 module Json = 
     type Sample = JsonProvider<"""  {"InvoiceNumber": "1-3456789",
@@ -123,7 +124,7 @@ module Main =
 
         Excel.prepairRowInInvoiceTemplate numberOfTransaction |> ignore
 
-        System.Threading.Thread.Sleep(2000)  
+        Thread.Sleep(2000)  
 
         Excel.generateInvoice invoiceJson
 

@@ -12,7 +12,6 @@ module ZeroMQ =
     let startServer () =
         // create a ZMQ context
         use context = new Context()
-  
         // create reply socket
         use server  = rep context
         // open receiving connections

@@ -43,17 +43,15 @@ module Excel =
         //invoicingCurrencyTotalBeforeExchange
         worksheet.Cells.[18 + numberOfRowsRequiredInExcelTable,5] <- invoicingCurrencyTotalBeforeExchange
 
-        let populateExcelDocument currencyCode totalPerCurrencyAfterExchange totalPerCurrencyBeforeExchange x = 
-            worksheet.Cells.[x,2] <- currencyCode
-            worksheet.Cells.[x,3] <- totalPerCurrencyBeforeExchange
-            worksheet.Cells.[x,4] <- Http.getExchangeRates <| invoicingCurrencyCode <| currencyCode
-            worksheet.Cells.[x,5] <- totalPerCurrencyAfterExchange
+        let populateExcelDocument currencyCode totalPerCurrencyAfterExchange totalPerCurrencyBeforeExchange row = 
+            worksheet.Cells.[row,2] <- currencyCode
+            worksheet.Cells.[row,3] <- totalPerCurrencyBeforeExchange
+            worksheet.Cells.[row,4] <- Http.getExchangeRates <| invoicingCurrencyCode <| currencyCode
+            worksheet.Cells.[row,5] <- totalPerCurrencyAfterExchange
            
-
         totalInvoiceAmountPerCurrencies 
         |> Seq.filter (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) -> currencyCode <> selectedInvoicingCurrencyCode)
-        |> Seq.iter2 (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) x -> populateExcelDocument currencyCode totalPerCurrencyAfterExchange totalPerCurrencyBeforeExchange x) <| rowSeq
-
+        |> Seq.iter2 (fun (currencyCode, totalPerCurrencyAfterExchange, totalPerCurrencyBeforeExchange) row -> populateExcelDocument currencyCode totalPerCurrencyAfterExchange totalPerCurrencyBeforeExchange row) <| rowSeq
 
         let fileName = String.Format(@"C:\Users\amulligan\Desktop\Invoice File\{0}",invoiceNumber)
 

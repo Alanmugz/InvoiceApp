@@ -11,6 +11,7 @@ open System.Text
 open System.Windows.Forms 
 
     module MessageType = 
+
         type InvoiceMessage = {DateFrom: DateTime; 
                                DateTo: DateTime; 
                                InvoiceCurrency: int32; 
@@ -18,6 +19,7 @@ open System.Windows.Forms
                                ProfitMargin: decimal}
 
     module Entity = 
+
         [<CLIMutable>]
         type Transcation = {MerchantId: int; 
                             MessageTypeId: int; 
@@ -30,7 +32,9 @@ open System.Windows.Forms
         [<CLIMutable>]
         type Currency = {Id: int; 
                          Code: string;}
+
     module Database = 
+
         let private connectionString = "Server = localhost; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
 
         let openConnection = new Npgsql.NpgsqlConnection(connectionString)
@@ -45,6 +49,7 @@ open System.Windows.Forms
             String.Format("INSERT_INTO \"Invoice\" VALUES ('{0}', '{1}')", invoiceNumber, json)
 
     module ZeroMQHelper = 
+
         let encode messageAsStr = 
             Encoding.ASCII.GetBytes(messageAsStr.ToString())
 
@@ -68,6 +73,7 @@ open System.Windows.Forms
             toString <| stream.ToArray()
 
     module Convert =
+
         let invoiceCurrencyIdToCurrencyCode invoiceCurrencyId = 
             match invoiceCurrencyId with 
             | 1 -> "USD"
@@ -89,6 +95,7 @@ open System.Windows.Forms
             | _ -> 0
 
     module Math = 
+
         let getProfitMarginPercentageAsDecimal  total profitMargin =
             Math.Round((total / 100.0M * profitMargin),2)
 
@@ -97,10 +104,12 @@ open System.Windows.Forms
             Math.Round(total * exchangRateToEuro,2)
 
     module String =
+
         let removeWhiteSpaceCarrageReturnAndNewLine (string: string) = 
             let str = string.Replace(" ", "").Replace("\r", "").Replace("\n", "").Replace("_", " ")
             str
 
     module InvoiceNo =
+
         let generate merchantId = 
             String.Format("{0}-{1}",merchantId, Random().Next(1000, 1000000000))

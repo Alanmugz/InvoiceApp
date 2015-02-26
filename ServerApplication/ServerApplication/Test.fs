@@ -167,7 +167,7 @@ type TestClass() =
     member this.``Sequence Contains CurrencyCode Test``() =
         try
             let seq = seq{ yield ("USD","",""); 
-                         yield ("EUR","","") }
+                           yield ("EUR","","") }
 
             let result1 = Sequence.containsCurrencyCode "USD" seq
             let result2 = Sequence.containsCurrencyCode "ABC" seq
