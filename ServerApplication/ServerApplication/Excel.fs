@@ -41,7 +41,7 @@ module Excel =
         //ccsProfitInEuro
         worksheet.Cells.[7,5] <- ccsProfitInEuro
         //invoicingCurrencyTotalBeforeExchange
-        worksheet.Cells.[18 + numberOfRowsRequiredInExcelTable,5] <- invoicingCurrencyTotalBeforeExchange
+        worksheet.Cells.[19 + numberOfRowsRequiredInExcelTable,5] <- invoicingCurrencyTotalBeforeExchange
 
         let populateExcelDocument currencyCode totalPerCurrencyAfterExchange totalPerCurrencyBeforeExchange row = 
             worksheet.Cells.[row,2] <- currencyCode

@@ -4,7 +4,6 @@ namespace InvoiceApp
 open NUnit.Framework
 open System
 
- 
 [<TestFixture>]
 type TestClass() =
 

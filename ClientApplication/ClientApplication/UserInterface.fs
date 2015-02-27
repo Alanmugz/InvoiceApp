@@ -40,7 +40,7 @@ module UserInterface =
     dtpDateFrom.Name <- "dtpDateFrom";
     dtpDateFrom.Size <- new System.Drawing.Size(117, 20);
     dtpDateFrom.TabIndex <- 1;
-    dtpDateFrom.Value <- new DateTime(2015,1,1);
+    dtpDateFrom.Value <- new DateTime(2015,1,20);
     // 
     // lblDateTo
     // 
@@ -57,7 +57,7 @@ module UserInterface =
     dtpDateTo.Name <- "dtpDateTo";
     dtpDateTo.Size <- new System.Drawing.Size(117, 20);
     dtpDateTo.TabIndex <- 2;
-    dtpDateTo.Value <- new DateTime(2015,1,2);
+    dtpDateTo.Value <- new DateTime(2015,1,21);
     // 
     // lblInvoiceCurrency
     // 

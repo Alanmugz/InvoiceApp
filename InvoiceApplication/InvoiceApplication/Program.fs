@@ -76,7 +76,7 @@ module Excel =
         //ccsProfitInEuro
         worksheet.Cells.[7,5] <- parsedJson.InvoicingAmountWithProfitMarginAppliedInEuro
         //invoicingCurrencyTotalBeforeExchange
-        worksheet.Cells.[18 + (numberOfTransactionRequired),5] <- parsedJson.TransactionForPeroid
+        worksheet.Cells.[19 + (numberOfTransactionRequired),5] <- parsedJson.TransactionForPeroid
 
         let populateExcelDocument currencyCode totalPerCurrencyBeforeExchange exchangeRate totalPerCurrencyAfterExchange row = 
             worksheet.Cells.[row,2] <- currencyCode
