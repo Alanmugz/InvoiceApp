@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>ServerApplication</name></assembly>
+<members>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Calculate">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Convert">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Database">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Entity">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Excel">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Http">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.InvoiceNo">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Json">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Main">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Math">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.MessageType">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.QueryDatabase">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.Sequence">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.String">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.ZeroMQ">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:InvoiceApp.ZeroMQHelper">
+
+</member>
+</members>
+</doc>

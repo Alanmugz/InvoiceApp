@@ -35,7 +35,7 @@ open System.Windows.Forms
 
     module Database = 
 
-        let private connectionString = "Server = localhost; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
+        let private connectionString = "Server = 172.18.0.1; Port = 5432; Database = InvoiceApplication; User Id = postgres; Password = y6j5atu5 ; CommandTimeout = 40;"
 
         let openConnection = new Npgsql.NpgsqlConnection(connectionString)
 
